@@ -641,15 +641,6 @@
         "documentation": {}
     },
     {
-        "label": "django.db.models.signals",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "django.db.models.signals",
-        "description": "django.db.models.signals",
-        "detail": "django.db.models.signals",
-        "documentation": {}
-    },
-    {
         "label": "post_save",
         "importPath": "django.db.models.signals",
         "description": "django.db.models.signals",
@@ -891,15 +882,6 @@
         "documentation": {}
     },
     {
-        "label": "rest_framework",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
         "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -929,6 +911,14 @@
         "description": "rest_framework.response",
         "isExtraImport": true,
         "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "NotFound",
+        "importPath": "rest_framework.exceptions",
+        "description": "rest_framework.exceptions",
+        "isExtraImport": true,
+        "detail": "rest_framework.exceptions",
         "documentation": {}
     },
     {
@@ -1341,7 +1331,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path(\"products\", views.api_products)\n]",
+        "peekOfCode": "urlpatterns = [\n    path('products', views.api_products),\n    path('products/<str:pk>', views.api_product_detail)\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1350,7 +1340,16 @@
         "kind": 2,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "def api_products(request):\n    products = Product.objects.all()\n    serializer = ProductSerializer(products, many=True)\n    return Response(serializer.data, status=status.HTTP_200_OK)",
+        "peekOfCode": "def api_products(request):\n    products = Product.objects.all()\n    serializer = ProductSerializer(products, many=True)\n    return Response(serializer.data, status=status.HTTP_200_OK)\n@api_view()\ndef api_product_detail(request, pk):\n    try:\n        product = Product.objects.get(id=pk)\n    except Product.DoesNotExist:\n        raise NotFound({'detail': 'product not found'})",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "api_product_detail",
+        "kind": 2,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "def api_product_detail(request, pk):\n    try:\n        product = Product.objects.get(id=pk)\n    except Product.DoesNotExist:\n        raise NotFound({'detail': 'product not found'})\n    serializer = ProductSerializer(product)\n    return Response(serializer.data)",
         "detail": "api.views",
         "documentation": {}
     },
@@ -1503,7 +1502,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "WSGI_APPLICATION = 'ecommerce.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/3.2/ref/settings/#databases\nDATABASES = {\n    'default': config(\n        \"DB_URL\", default=\"sqlite:///\" + str(BASE_DIR / \"db.sqlite3\"), cast=dburl\n    )\n}\n# Password validation\n# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators",
+        "peekOfCode": "WSGI_APPLICATION = 'ecommerce.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/3.2/ref/settings/#databases\n# DATABASES = {\n#     'default': {\n#         'ENGINE': 'django.db.backends.sqlite3',\n#         'NAME': BASE_DIR / 'db.sqlite3'\n#     }\n# }\nDATABASES = {",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1512,7 +1511,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "DATABASES = {\n    'default': config(\n        \"DB_URL\", default=\"sqlite:///\" + str(BASE_DIR / \"db.sqlite3\"), cast=dburl\n    )\n}\n# Password validation\n# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',",
+        "peekOfCode": "DATABASES = {\n    'default': config(\n        'DB_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'), cast=dburl\n    )\n}\n# Password validation\n# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
