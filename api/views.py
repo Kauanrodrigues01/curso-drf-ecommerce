@@ -1,23 +1,41 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view
-from django.shortcuts import get_object_or_404
-from .serializers import ProductSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from storeapp.models import Product
-from rest_framework.response import Response
-from rest_framework import status
+from .serializers import ProductSerializer
+from storeapp.models import Category
+from .serializers import CategorySerializer
 from rest_framework.exceptions import NotFound
+from rest_framework.response import Response
 
-@api_view()
-def api_products(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+class ProductListView(ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-@api_view()
-def api_product_detail(request, pk):
-    try:
-        product = Product.objects.get(id=pk)
-    except Product.DoesNotExist:
-        raise NotFound({'detail': 'product not found'})
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
+class ProductDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'id'
+    
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_queryset().get(id=kwargs['id'])
+        except Product.DoesNotExist:
+            raise NotFound({'detail': 'Product Not Found'})
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+class CategoryListView(ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    lookup_field = 'category_id'
+    
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_queryset().get(category_id=kwargs['category_id'])
+        except Category.DoesNotExist:
+            raise NotFound({'detail': 'Category Not Found'})
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)

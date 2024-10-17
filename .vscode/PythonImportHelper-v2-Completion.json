@@ -762,22 +762,6 @@
         "documentation": {}
     },
     {
-        "label": "get_object_or_404",
-        "importPath": "django.shortcuts",
-        "description": "django.shortcuts",
-        "isExtraImport": true,
-        "detail": "django.shortcuts",
-        "documentation": {}
-    },
-    {
-        "label": "render",
-        "importPath": "django.shortcuts",
-        "description": "django.shortcuts",
-        "isExtraImport": true,
-        "detail": "django.shortcuts",
-        "documentation": {}
-    },
-    {
         "label": "render",
         "importPath": "django.shortcuts",
         "description": "django.shortcuts",
@@ -866,19 +850,19 @@
         "documentation": {}
     },
     {
+        "label": "Category",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
         "label": "AddressForm",
         "importPath": "storeapp.forms",
         "description": "storeapp.forms",
         "isExtraImport": true,
         "detail": "storeapp.forms",
-        "documentation": {}
-    },
-    {
-        "label": "product",
-        "importPath": "itertools",
-        "description": "itertools",
-        "isExtraImport": true,
-        "detail": "itertools",
         "documentation": {}
     },
     {
@@ -890,7 +874,7 @@
         "documentation": {}
     },
     {
-        "label": "status",
+        "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
         "isExtraImport": true,
@@ -898,19 +882,27 @@
         "documentation": {}
     },
     {
-        "label": "api_view",
-        "importPath": "rest_framework.decorators",
-        "description": "rest_framework.decorators",
+        "label": "validate_string_field",
+        "importPath": "utils",
+        "description": "utils",
         "isExtraImport": true,
-        "detail": "rest_framework.decorators",
+        "detail": "utils",
         "documentation": {}
     },
     {
-        "label": "Response",
-        "importPath": "rest_framework.response",
-        "description": "rest_framework.response",
+        "label": "ListCreateAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
         "isExtraImport": true,
-        "detail": "rest_framework.response",
+        "detail": "rest_framework.generics",
+        "documentation": {}
+    },
+    {
+        "label": "RetrieveUpdateDestroyAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
         "documentation": {}
     },
     {
@@ -919,6 +911,14 @@
         "description": "rest_framework.exceptions",
         "isExtraImport": true,
         "detail": "rest_framework.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
         "documentation": {}
     },
     {
@@ -1313,7 +1313,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = [ \"id\", \"name\", \"description\", \"category\", \"slug\", \"inventory\", \"old_price\", \"price\"]\nclass CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = [\"category_id\", \"title\", \"slug\"]",
+        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image']\n    def validate(self, attrs):\n        required_fields = ['name', 'slug', 'inventory', 'old_price']\n        for field in required_fields:\n            if attrs.get(field) is None:\n                raise serializers.ValidationError({field: f'The {field} field cannot be null'})\n        validate_string_field('name', attrs.get('name'), min_length=3, max_length=200)",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1322,7 +1322,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = [\"category_id\", \"title\", \"slug\"]",
+        "peekOfCode": "class CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = ['category_id', 'title', 'slug', 'featured_product', 'icon']\n    def validate(self, attrs):\n        required_fields = ['title', 'slug']\n        for field in required_fields:\n            if attrs.get(field) is None:\n                raise serializers.ValidationError({field: f'The {field} field cannot be null'})\n        validate_string_field('title', attrs.get('title'), min_length=3, max_length=200)",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1331,25 +1331,43 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path('products', views.api_products),\n    path('products/<str:pk>', views.api_product_detail)\n]",
+        "peekOfCode": "urlpatterns = [\n    # Rotas para produtos\n    path('products', ProductListView.as_view(), name='product-list'),\n    path('products/<uuid:id>', ProductDetailView.as_view(), name='product-detail'),\n    # Rotas para categorias\n    path('categories', CategoryListView.as_view(), name='category-list'),\n    path('categories/<uuid:category_id>', CategoryDetailView.as_view(), name='category-detail'),\n]",
         "detail": "api.urls",
         "documentation": {}
     },
     {
-        "label": "api_products",
-        "kind": 2,
+        "label": "ProductListView",
+        "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "def api_products(request):\n    products = Product.objects.all()\n    serializer = ProductSerializer(products, many=True)\n    return Response(serializer.data, status=status.HTTP_200_OK)\n@api_view()\ndef api_product_detail(request, pk):\n    try:\n        product = Product.objects.get(id=pk)\n    except Product.DoesNotExist:\n        raise NotFound({'detail': 'product not found'})",
+        "peekOfCode": "class ProductListView(ListCreateAPIView):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\nclass ProductDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    lookup_field = 'id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])",
         "detail": "api.views",
         "documentation": {}
     },
     {
-        "label": "api_product_detail",
-        "kind": 2,
+        "label": "ProductDetailView",
+        "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "def api_product_detail(request, pk):\n    try:\n        product = Product.objects.get(id=pk)\n    except Product.DoesNotExist:\n        raise NotFound({'detail': 'product not found'})\n    serializer = ProductSerializer(product)\n    return Response(serializer.data)",
+        "peekOfCode": "class ProductDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    lookup_field = 'id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])\n        except Product.DoesNotExist:\n            raise NotFound({'detail': 'Product Not Found'})\n        serializer = self.get_serializer(instance)",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "CategoryListView",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class CategoryListView(ListCreateAPIView):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\nclass CategoryDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    lookup_field = 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "CategoryDetailView",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class CategoryDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    lookup_field = 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])\n        except Category.DoesNotExist:\n            raise NotFound({'detail': 'Category Not Found'})\n        serializer = self.get_serializer(instance)",
         "detail": "api.views",
         "documentation": {}
     },
@@ -1430,7 +1448,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config(\"DEBUG\", default=False, cast=bool)\nALLOWED_HOSTS = config(\"ALLOWED_HOSTS\", default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1439,7 +1457,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "SECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config(\"DEBUG\", default=False, cast=bool)\nALLOWED_HOSTS = config(\"ALLOWED_HOSTS\", default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "peekOfCode": "SECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1448,7 +1466,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "DEBUG = config(\"DEBUG\", default=False, cast=bool)\nALLOWED_HOSTS = config(\"ALLOWED_HOSTS\", default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "peekOfCode": "DEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1457,7 +1475,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "ALLOWED_HOSTS = config(\"ALLOWED_HOSTS\", default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'storeapp',",
+        "peekOfCode": "ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'storeapp',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1637,7 +1655,7 @@
         "kind": 5,
         "importPath": "ecommerce.urls",
         "description": "ecommerce.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include('storeapp.urls')),\n    path('user/', include('UserProfile.urls')),\n    path(\"api/\", include(\"api.urls\"))\n]\nurlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include('storeapp.urls')),\n    path('user/', include('UserProfile.urls')),\n    path('api/', include('api.urls'))\n]\nurlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
         "detail": "ecommerce.urls",
         "documentation": {}
     },
@@ -2026,6 +2044,15 @@
         "description": "manage",
         "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecommerce.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
         "detail": "manage",
+        "documentation": {}
+    },
+    {
+        "label": "validate_string_field",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def validate_string_field(field_name, value, min_length=0, max_length=200):\n    if value is None or value.strip() == \"\":\n        raise serializers.ValidationError({field_name: f'The {field_name} field cannot be empty'})\n    if value.isdigit():\n        raise serializers.ValidationError({field_name: f'The {field_name} cannot contain only numbers'})\n    if len(value) < min_length:\n        raise serializers.ValidationError({field_name: f'The {field_name} must be at least {min_length} characters long'})\n    if len(value) > max_length:\n        raise serializers.ValidationError({field_name: f'The {field_name} must have a maximum of {max_length} characters'})",
+        "detail": "utils",
         "documentation": {}
     }
 ]
