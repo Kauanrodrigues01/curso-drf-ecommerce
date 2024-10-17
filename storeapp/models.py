@@ -4,9 +4,6 @@ import uuid
 from django.contrib.auth.models import User
 from  django.conf import settings
 from UserProfile.models import Customer
-
-# Create your models here.
-
         
 class Category(models.Model):
     title = models.CharField(max_length=200)
@@ -92,8 +89,6 @@ class SavedItem(models.Model):
     owner = models.ForeignKey(Customer, on_delete=models.CASCADE, null = True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     added = models.IntegerField(default=0)
-    
-    
     
     def __str__(self):
         return str(self.id)

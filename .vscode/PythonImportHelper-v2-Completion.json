@@ -2051,7 +2051,7 @@
         "kind": 2,
         "importPath": "utils",
         "description": "utils",
-        "peekOfCode": "def validate_string_field(field_name, value, min_length=0, max_length=200):\n    if value is None or value.strip() == \"\":\n        raise serializers.ValidationError({field_name: f'The {field_name} field cannot be empty'})\n    if value.isdigit():\n        raise serializers.ValidationError({field_name: f'The {field_name} cannot contain only numbers'})\n    if len(value) < min_length:\n        raise serializers.ValidationError({field_name: f'The {field_name} must be at least {min_length} characters long'})\n    if len(value) > max_length:\n        raise serializers.ValidationError({field_name: f'The {field_name} must have a maximum of {max_length} characters'})",
+        "peekOfCode": "def validate_string_field(field_name, value, min_length=0, max_length=200):\n    \"\"\"Validates a string field to ensure it meets specified length and content criteria.\n    This function checks if the provided value for a string field is not empty,\n    does not consist solely of digits, and adheres to the minimum and maximum length\n    constraints.\n    Args:\n        field_name (str): The name of the field being validated, used in the error messages.\n        value (str): The value of the field to validate.\n        min_length (int, optional): The minimum length of the field value. Defaults to 0.\n        max_length (int, optional): The maximum length of the field value. Defaults to 200.",
         "detail": "utils",
         "documentation": {}
     }
