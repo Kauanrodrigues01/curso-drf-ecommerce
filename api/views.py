@@ -22,6 +22,9 @@ class ProductDetailView(RetrieveUpdateDestroyAPIView):
             raise NotFound({'detail': 'Product Not Found'})
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+    
+    def get_serializer(self, *args, **kwargs):
+        return super().get_serializer(*args, **kwargs)
 
 class CategoryListView(ListCreateAPIView):
     queryset = Category.objects.all()

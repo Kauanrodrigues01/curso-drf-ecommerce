@@ -5,14 +5,20 @@ from utils import validate_string_field
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image']
+        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image', 'discount', 'top_deal', 'flash_sales']
 
     def validate(self, attrs):
         required_fields = ['name', 'slug', 'inventory', 'old_price']
+        request = self.context.get('request')
         
         for field in required_fields:
-            if attrs.get(field) is None:
-                raise serializers.ValidationError({field: f'The {field} field cannot be null'})
+            if request.method == 'PATCH':
+                if attrs.get(field) is None and hasattr(self.instance, field):
+                    attrs[field] = getattr(self.instance, field)
+            else:
+                if attrs.get(field) is None:
+                    raise serializers.ValidationError({field: f'The {field} field cannot be null'})
+
 
         validate_string_field('name', attrs.get('name'), min_length=3, max_length=200)
 
@@ -24,7 +30,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
         return attrs
 
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -32,8 +37,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         required_fields = ['title', 'slug']
+        request = self.context.get('request')
         
         for field in required_fields:
+            if request.method == 'PATCH':
+                if attrs.get(field) is None and hasattr(self.instance, field):
+                    attrs[field] = getattr(self.instance, field)
             if attrs.get(field) is None:
                 raise serializers.ValidationError({field: f'The {field} field cannot be null'})
 

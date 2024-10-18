@@ -689,7 +689,39 @@
         "documentation": {}
     },
     {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
         "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
         "importPath": "django.urls",
         "description": "django.urls",
         "isExtraImport": true,
@@ -834,6 +866,38 @@
         "documentation": {}
     },
     {
+        "label": "Category",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Product",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Product",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
         "label": "Product",
         "importPath": "storeapp.models",
         "description": "storeapp.models",
@@ -863,6 +927,54 @@
         "description": "storeapp.forms",
         "isExtraImport": true,
         "detail": "storeapp.forms",
+        "documentation": {}
+    },
+    {
+        "label": "APIClient",
+        "importPath": "rest_framework.test",
+        "description": "rest_framework.test",
+        "isExtraImport": true,
+        "detail": "rest_framework.test",
+        "documentation": {}
+    },
+    {
+        "label": "APIClient",
+        "importPath": "rest_framework.test",
+        "description": "rest_framework.test",
+        "isExtraImport": true,
+        "detail": "rest_framework.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseCategoryViews",
+        "importPath": "api.tests.tests_categories.base.test_base_category_views",
+        "description": "api.tests.tests_categories.base.test_base_category_views",
+        "isExtraImport": true,
+        "detail": "api.tests.tests_categories.base.test_base_category_views",
+        "documentation": {}
+    },
+    {
+        "label": "CategorySerializer",
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "isExtraImport": true,
+        "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "ProductSerializer",
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "isExtraImport": true,
+        "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseProductViews",
+        "importPath": "api.tests.tests_products.base.test_base_product_views",
+        "description": "api.tests.tests_products.base.test_base_product_views",
+        "isExtraImport": true,
+        "detail": "api.tests.tests_products.base.test_base_product_views",
         "documentation": {}
     },
     {
@@ -1300,6 +1412,42 @@
         "documentation": {}
     },
     {
+        "label": "TestBaseCategoryViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_categories.base.test_base_category_views",
+        "description": "api.tests.tests_categories.base.test_base_category_views",
+        "peekOfCode": "class TestBaseCategoryViews(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.category1 = Category.objects.create(\n            title='Category test 1',\n            slug='category-test-1',\n            icon='icon1.png'\n        )\n        self.category2 = Category.objects.create(\n            title='Category test 2',",
+        "detail": "api.tests.tests_categories.base.test_base_category_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestCategoryViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_categories.tests_category_views",
+        "description": "api.tests.tests_categories.tests_category_views",
+        "peekOfCode": "class TestCategoryViews(TestBaseCategoryViews):\n    def test_list_categories(self):\n        response = self.client.get(reverse('categories-list'))\n        serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))\n        self.assertIn(serializer_category1.data, response.data)\n        self.assertEqual(response.status_code, 200)\n    def test_detail_category(self):\n        response = self.client.get(reverse('category-detail', kwargs={'category_id': self.category1.category_id}))\n        serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))\n        self.assertEqual(serializer_category1.data, response.data)",
+        "detail": "api.tests.tests_categories.tests_category_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseProductViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_products.base.test_base_product_views",
+        "description": "api.tests.tests_products.base.test_base_product_views",
+        "peekOfCode": "class TestBaseProductViews(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.product1 = Product.objects.create(\n            name='Produto teste 1',\n            description='Descrição teste 1',\n            discount=True,\n            old_price=200.00,\n            slug='produto-teste-1',\n            inventory=10,",
+        "detail": "api.tests.tests_products.base.test_base_product_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestProductsViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_products.tests_products_views",
+        "description": "api.tests.tests_products.tests_products_views",
+        "peekOfCode": "class TestProductsViews(TestBaseProductViews):\n    def test_list_products(self):\n        response = self.client.get(reverse('products-list'))\n        serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))\n        self.assertIn(serializer_product1.data, response.data)\n        self.assertEqual(response.status_code, 200)\n    def test_detail_product(self):\n        response = self.client.get(reverse('product-detail', kwargs={'id': self.product1.id}))\n        serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))\n        self.assertEqual(serializer_product1.data, response.data)",
+        "detail": "api.tests.tests_products.tests_products_views",
+        "documentation": {}
+    },
+    {
         "label": "ApiConfig",
         "kind": 6,
         "importPath": "api.apps",
@@ -1313,7 +1461,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image']\n    def validate(self, attrs):\n        required_fields = ['name', 'slug', 'inventory', 'old_price']\n        for field in required_fields:\n            if attrs.get(field) is None:\n                raise serializers.ValidationError({field: f'The {field} field cannot be null'})\n        validate_string_field('name', attrs.get('name'), min_length=3, max_length=200)",
+        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image', 'discount', 'top_deal', 'flash_sales']\n    def validate(self, attrs):\n        required_fields = ['name', 'slug', 'inventory', 'old_price']\n        request = self.context.get('request')\n        for field in required_fields:\n            if request.method == 'PATCH':\n                if attrs.get(field) is None and hasattr(self.instance, field):",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1322,7 +1470,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = ['category_id', 'title', 'slug', 'featured_product', 'icon']\n    def validate(self, attrs):\n        required_fields = ['title', 'slug']\n        for field in required_fields:\n            if attrs.get(field) is None:\n                raise serializers.ValidationError({field: f'The {field} field cannot be null'})\n        validate_string_field('title', attrs.get('title'), min_length=3, max_length=200)",
+        "peekOfCode": "class CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = ['category_id', 'title', 'slug', 'featured_product', 'icon']\n    def validate(self, attrs):\n        required_fields = ['title', 'slug']\n        request = self.context.get('request')\n        for field in required_fields:\n            if request.method == 'PATCH':\n                if attrs.get(field) is None and hasattr(self.instance, field):",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1331,7 +1479,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    # Rotas para produtos\n    path('products', ProductListView.as_view(), name='product-list'),\n    path('products/<uuid:id>', ProductDetailView.as_view(), name='product-detail'),\n    # Rotas para categorias\n    path('categories', CategoryListView.as_view(), name='category-list'),\n    path('categories/<uuid:category_id>', CategoryDetailView.as_view(), name='category-detail'),\n]",
+        "peekOfCode": "urlpatterns = [\n    # Rotas para produtos\n    path('products', ProductListView.as_view(), name='products-list'),\n    path('products/<uuid:id>', ProductDetailView.as_view(), name='product-detail'),\n    # Rotas para categorias\n    path('categories', CategoryListView.as_view(), name='categories-list'),\n    path('categories/<uuid:category_id>', CategoryDetailView.as_view(), name='category-detail'),\n]",
         "detail": "api.urls",
         "documentation": {}
     },
