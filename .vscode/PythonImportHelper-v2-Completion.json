@@ -697,6 +697,14 @@
         "documentation": {}
     },
     {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
         "label": "path",
         "importPath": "django.urls",
         "description": "django.urls",
@@ -819,6 +827,22 @@
     },
     {
         "label": "Address",
+        "importPath": "UserProfile.models",
+        "description": "UserProfile.models",
+        "isExtraImport": true,
+        "detail": "UserProfile.models",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
+        "importPath": "UserProfile.models",
+        "description": "UserProfile.models",
+        "isExtraImport": true,
+        "detail": "UserProfile.models",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
         "importPath": "UserProfile.models",
         "description": "UserProfile.models",
         "isExtraImport": true,
@@ -954,6 +978,14 @@
         "documentation": {}
     },
     {
+        "label": "APIClient",
+        "importPath": "rest_framework.test",
+        "description": "rest_framework.test",
+        "isExtraImport": true,
+        "detail": "rest_framework.test",
+        "documentation": {}
+    },
+    {
         "label": "TestBaseCategoryViews",
         "importPath": "api.tests.tests_categories.base.test_base_category_views",
         "description": "api.tests.tests_categories.base.test_base_category_views",
@@ -986,11 +1018,36 @@
         "documentation": {}
     },
     {
-        "label": "serializers",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
         "isExtraImport": true,
-        "detail": "rest_framework",
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "email",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "email",
+        "description": "email",
+        "detail": "email",
         "documentation": {}
     },
     {
@@ -1010,6 +1067,30 @@
         "documentation": {}
     },
     {
+        "label": "validate_password_strength",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "defaultdict",
+        "importPath": "collections",
+        "description": "collections",
+        "isExtraImport": true,
+        "detail": "collections",
+        "documentation": {}
+    },
+    {
+        "label": "defaultdict",
+        "importPath": "collections",
+        "description": "collections",
+        "isExtraImport": true,
+        "detail": "collections",
+        "documentation": {}
+    },
+    {
         "label": "DefaultRouter",
         "importPath": "rest_framework.routers",
         "description": "rest_framework.routers",
@@ -1023,6 +1104,22 @@
         "description": "rest_framework.viewsets",
         "isExtraImport": true,
         "detail": "rest_framework.viewsets",
+        "documentation": {}
+    },
+    {
+        "label": "ListAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
+        "documentation": {}
+    },
+    {
+        "label": "CreateAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
         "documentation": {}
     },
     {
@@ -1065,15 +1162,6 @@
         "description": "django.contrib.auth.admin",
         "isExtraImport": true,
         "detail": "django.contrib.auth.admin",
-        "documentation": {}
-    },
-    {
-        "label": "email",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "email",
-        "description": "email",
-        "detail": "email",
         "documentation": {}
     },
     {
@@ -1167,11 +1255,43 @@
         "documentation": {}
     },
     {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "static",
         "importPath": "django.conf.urls.static",
         "description": "django.conf.urls.static",
         "isExtraImport": true,
         "detail": "django.conf.urls.static",
+        "documentation": {}
+    },
+    {
+        "label": "TokenObtainPairView",
+        "importPath": "rest_framework_simplejwt.views",
+        "description": "rest_framework_simplejwt.views",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.views",
+        "documentation": {}
+    },
+    {
+        "label": "TokenRefreshView",
+        "importPath": "rest_framework_simplejwt.views",
+        "description": "rest_framework_simplejwt.views",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.views",
+        "documentation": {}
+    },
+    {
+        "label": "TokenBlacklistView",
+        "importPath": "rest_framework_simplejwt.views",
+        "description": "rest_framework_simplejwt.views",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.views",
         "documentation": {}
     },
     {
@@ -1255,6 +1375,22 @@
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "validate_email",
+        "importPath": "django.core.validators",
+        "description": "django.core.validators",
+        "isExtraImport": true,
+        "detail": "django.core.validators",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "django.core.exceptions",
+        "description": "django.core.exceptions",
+        "isExtraImport": true,
+        "detail": "django.core.exceptions",
         "documentation": {}
     },
     {
@@ -1456,6 +1592,15 @@
         "documentation": {}
     },
     {
+        "label": "TestBaseUserViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_users.base.test_base_user_views",
+        "description": "api.tests.tests_users.base.test_base_user_views",
+        "peekOfCode": "class TestBaseUserViews(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        return super().setUp()",
+        "detail": "api.tests.tests_users.base.test_base_user_views",
+        "documentation": {}
+    },
+    {
         "label": "ApiConfig",
         "kind": 6,
         "importPath": "api.apps",
@@ -1469,7 +1614,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image', 'discount', 'top_deal', 'flash_sales']\n    def validate(self, attrs):\n        required_fields = ['name', 'slug', 'inventory', 'old_price']\n        request = self.context.get('request')\n        for field in required_fields:\n            if request.method == 'PATCH':\n                if attrs.get(field) is None and hasattr(self.instance, field):",
+        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image', 'discount', 'top_deal', 'flash_sales']\n    def validate(self, attrs):\n        required_fields = ['name', 'slug', 'inventory', 'old_price']\n        request = self.context.get('request')\n        errors = defaultdict(list)\n        for field in required_fields:\n            if request.method == 'PATCH':",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1478,7 +1623,16 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = ['category_id', 'title', 'slug', 'featured_product', 'icon']\n    def validate(self, attrs):\n        required_fields = ['title', 'slug']\n        request = self.context.get('request')\n        for field in required_fields:\n            if request.method == 'PATCH':\n                if attrs.get(field) is None and hasattr(self.instance, field):",
+        "peekOfCode": "class CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = ['category_id', 'title', 'slug', 'featured_product', 'icon']\n    def validate(self, attrs):\n        required_fields = ['title', 'slug']\n        request = self.context.get('request')\n        errors = defaultdict(list)\n        for field in required_fields:\n            if request.method == 'PATCH':",
+        "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "UserSerializer",
+        "kind": 6,
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "peekOfCode": "class UserSerializer(serializers.ModelSerializer):\n    password = serializers.CharField(write_only=True)\n    password_confirmation = serializers.CharField(write_only=True)\n    class Meta:\n        model = User\n        fields = ['id', 'email', 'first_name', 'last_name', 'password', 'password_confirmation']\n    def validate(self, attrs):\n        required_fields = ['email', 'first_name', 'last_name', 'password', 'password_confirmation']\n        request = self.context.get('request')\n        errors = defaultdict(list)",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1487,7 +1641,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1496,7 +1650,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1515,6 +1669,15 @@
         "importPath": "api.views",
         "description": "api.views",
         "peekOfCode": "class CategoryViewSet(ModelViewSet):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    lookup_field = 'category_id'  # Mantemos o campo de busca como 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])\n        except Category.DoesNotExist:\n            raise NotFound({'detail': 'Category Not Found'})\n        serializer = self.get_serializer(instance)",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "UserCreateView",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class UserCreateView(CreateAPIView):\n    queryset = User.objects.all()\n    serializer_class = UserSerializer\n    http_method_names = ['post']",
         "detail": "api.views",
         "documentation": {}
     },
@@ -1667,7 +1830,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "WSGI_APPLICATION = 'ecommerce.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/3.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3'\n    }\n}\n# DATABASES = {",
+        "peekOfCode": "WSGI_APPLICATION = 'ecommerce.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/3.2/ref/settings/#databases\n# DATABASES = {\n#     'default': {\n#         'ENGINE': 'django.db.backends.sqlite3',\n#         'NAME': BASE_DIR / 'db.sqlite3'\n#     }\n# }\nDATABASES = {",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1676,7 +1839,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3'\n    }\n}\n# DATABASES = {\n#     'default': config(\n#         'DB_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'), cast=dburl\n#     )",
+        "peekOfCode": "DATABASES = {\n    'default': config(\n        'DB_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'), cast=dburl\n    )\n}\n# Password validation\n# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1739,7 +1902,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATIC_URL = '/static/'\nSTATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\n# AWS_QUERYSTRING_AUTH = False",
+        "peekOfCode": "STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATIC_URL = '/static/'\nSTATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1748,7 +1911,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "STATIC_URL = '/static/'\nSTATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\n# AWS_QUERYSTRING_AUTH = False\n# AWS_S3_FILE_OVERWRITE = False",
+        "peekOfCode": "STATIC_URL = '/static/'\nSTATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1757,7 +1920,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "STATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\n# AWS_QUERYSTRING_AUTH = False\n# AWS_S3_FILE_OVERWRITE = False\n# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'",
+        "peekOfCode": "STATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1766,7 +1929,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\n# AWS_QUERYSTRING_AUTH = False\n# AWS_S3_FILE_OVERWRITE = False\n# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'\n# AWS_ACCESS_KEY_ID  = os.environ.get('AWS_ACCESS_KEY')",
+        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1775,7 +1938,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "MEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\n# AWS_QUERYSTRING_AUTH = False\n# AWS_S3_FILE_OVERWRITE = False\n# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'\n# AWS_ACCESS_KEY_ID  = os.environ.get('AWS_ACCESS_KEY')\n# AWS_SECRET_ACCESS_KEY =  os.environ.get('AWS_SECRET_KEY')",
+        "peekOfCode": "MEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1784,7 +1947,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\n# AWS_QUERYSTRING_AUTH = False\n# AWS_S3_FILE_OVERWRITE = False\n# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'\n# AWS_ACCESS_KEY_ID  = os.environ.get('AWS_ACCESS_KEY')\n# AWS_SECRET_ACCESS_KEY =  os.environ.get('AWS_SECRET_KEY')\n# AWS_STORAGE_BUCKET_NAME = 'shopit-bucket'",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}\nfrom datetime import timedelta\n...\nSIMPLE_JWT = {",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1793,7 +1956,25 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "AUTH_USER_MODEL = 'core.User'\n# AWS_QUERYSTRING_AUTH = False\n# AWS_S3_FILE_OVERWRITE = False\n# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'\n# AWS_ACCESS_KEY_ID  = os.environ.get('AWS_ACCESS_KEY')\n# AWS_SECRET_ACCESS_KEY =  os.environ.get('AWS_SECRET_KEY')\n# AWS_STORAGE_BUCKET_NAME = 'shopit-bucket'",
+        "peekOfCode": "AUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}\nfrom datetime import timedelta\n...\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(",
+        "detail": "ecommerce.settings",
+        "documentation": {}
+    },
+    {
+        "label": "REST_FRAMEWORK",
+        "kind": 5,
+        "importPath": "ecommerce.settings",
+        "description": "ecommerce.settings",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}\nfrom datetime import timedelta\n...\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    ",
+        "detail": "ecommerce.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SIMPLE_JWT",
+        "kind": 5,
+        "importPath": "ecommerce.settings",
+        "description": "ecommerce.settings",
+        "peekOfCode": "SIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    \n    ),\n    \"REFRESH_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"REFRESH_TOKEN_LIFETIME_SECONDS\", cast=int)\n    ),\n    \"ROTATE_REFRESH_TOKENS\": True,\n    \"BLACKLIST_AFTER_ROTATION\": True,\n    \"TOKEN_OBTAIN_SERIALIZER\": \"rest_framework_simplejwt.serializers.TokenObtainPairSerializer\",",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1802,7 +1983,7 @@
         "kind": 5,
         "importPath": "ecommerce.urls",
         "description": "ecommerce.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include('storeapp.urls')),\n    path('user/', include('UserProfile.urls')),\n    path('api/', include('api.urls'))\n]\nurlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include('storeapp.urls')),\n    path('user/', include('UserProfile.urls')),\n    path('api/', include('api.urls')),\n    path('api/user/login/', TokenObtainPairView.as_view(), name='login'),\n    path('api/user/refresh-token/', TokenRefreshView.as_view(), name='token_refresh'),\n    path('api/user/logout/', TokenBlacklistView.as_view(), name='logout')\n]\nurlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
         "detail": "ecommerce.urls",
         "documentation": {}
     },
@@ -2198,7 +2379,25 @@
         "kind": 2,
         "importPath": "utils",
         "description": "utils",
-        "peekOfCode": "def validate_string_field(field_name, value, min_length=0, max_length=200):\n    \"\"\"Validates a string field to ensure it meets specified length and content criteria.\n    This function checks if the provided value for a string field is not empty,\n    does not consist solely of digits, and adheres to the minimum and maximum length\n    constraints.\n    Args:\n        field_name (str): The name of the field being validated, used in the error messages.\n        value (str): The value of the field to validate.\n        min_length (int, optional): The minimum length of the field value. Defaults to 0.\n        max_length (int, optional): The maximum length of the field value. Defaults to 200.",
+        "peekOfCode": "def validate_string_field(field_name, value, min_length=False, max_length=False, list_of_errors=defaultdict(list)):\n    \"\"\"Validates a string field to ensure it meets specified length and content criteria.\n    Args:\n        field_name (str): The name of the field being validated, used in the error messages.\n        value (str): The value of the field to validate.\n        min_length (int, optional): The minimum length of the field value. Defaults to 0.\n        max_length (int, optional): The maximum length of the field value. Defaults to 200.\n    Returns:\n        list: A list of error messages, if any.\n    Raises:",
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "validate_email_field",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def validate_email_field(email):\n    \"\"\"Validates an email address.\n    Args:\n        email (str): The email address to validate.\n    Returns:\n        bool: True if the email is valid, False otherwise.\n    Raises:\n        ValidationError: If the email address is not valid, a ValidationError is raised.\n    \"\"\"\n    try:",
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "validate_password_strength",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def validate_password_strength(password, list_of_errors=[]):\n    \"\"\"Validates the strength of a password.\n    Args:\n        password (str): The password to validate.\n    Returns:\n        list: A list of error messages if the password is weak.\n    Raises:\n        serializers.ValidationError: If the password does not meet the strength criteria.\n    \"\"\"\n    if len(password) < 6:",
         "detail": "utils",
         "documentation": {}
     }
