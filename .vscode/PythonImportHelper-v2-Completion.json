@@ -737,6 +737,14 @@
         "documentation": {}
     },
     {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
         "label": "path",
         "importPath": "django.urls",
         "description": "django.urls",
@@ -1002,19 +1010,19 @@
         "documentation": {}
     },
     {
-        "label": "ListCreateAPIView",
-        "importPath": "rest_framework.generics",
-        "description": "rest_framework.generics",
+        "label": "DefaultRouter",
+        "importPath": "rest_framework.routers",
+        "description": "rest_framework.routers",
         "isExtraImport": true,
-        "detail": "rest_framework.generics",
+        "detail": "rest_framework.routers",
         "documentation": {}
     },
     {
-        "label": "RetrieveUpdateDestroyAPIView",
-        "importPath": "rest_framework.generics",
-        "description": "rest_framework.generics",
+        "label": "ModelViewSet",
+        "importPath": "rest_framework.viewsets",
+        "description": "rest_framework.viewsets",
         "isExtraImport": true,
-        "detail": "rest_framework.generics",
+        "detail": "rest_framework.viewsets",
         "documentation": {}
     },
     {
@@ -1425,7 +1433,7 @@
         "kind": 6,
         "importPath": "api.tests.tests_categories.tests_category_views",
         "description": "api.tests.tests_categories.tests_category_views",
-        "peekOfCode": "class TestCategoryViews(TestBaseCategoryViews):\n    def test_list_categories(self):\n        response = self.client.get(reverse('categories-list'))\n        serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))\n        self.assertIn(serializer_category1.data, response.data)\n        self.assertEqual(response.status_code, 200)\n    def test_detail_category(self):\n        response = self.client.get(reverse('category-detail', kwargs={'category_id': self.category1.category_id}))\n        serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))\n        self.assertEqual(serializer_category1.data, response.data)",
+        "peekOfCode": "class TestCategoryViews(TestBaseCategoryViews):\n    def test_list_categories(self):\n        response = self.client.get(reverse('category-list'))\n        serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))\n        self.assertIn(serializer_category1.data, response.data)\n        self.assertEqual(response.status_code, 200)\n    def test_detail_category(self):\n        response = self.client.get(reverse('category-detail', kwargs={'category_id': self.category1.category_id}))\n        serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))\n        self.assertEqual(serializer_category1.data, response.data)",
         "detail": "api.tests.tests_categories.tests_category_views",
         "documentation": {}
     },
@@ -1443,7 +1451,7 @@
         "kind": 6,
         "importPath": "api.tests.tests_products.tests_products_views",
         "description": "api.tests.tests_products.tests_products_views",
-        "peekOfCode": "class TestProductsViews(TestBaseProductViews):\n    def test_list_products(self):\n        response = self.client.get(reverse('products-list'))\n        serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))\n        self.assertIn(serializer_product1.data, response.data)\n        self.assertEqual(response.status_code, 200)\n    def test_detail_product(self):\n        response = self.client.get(reverse('product-detail', kwargs={'id': self.product1.id}))\n        serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))\n        self.assertEqual(serializer_product1.data, response.data)",
+        "peekOfCode": "class TestProductsViews(TestBaseProductViews):\n    def test_list_products(self):\n        response = self.client.get(reverse('product-list'))\n        serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))\n        self.assertIn(serializer_product1.data, response.data)\n        self.assertEqual(response.status_code, 200)\n    def test_detail_product(self):\n        response = self.client.get(reverse('product-detail', kwargs={'id': self.product1.id}))\n        serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))\n        self.assertEqual(serializer_product1.data, response.data)",
         "detail": "api.tests.tests_products.tests_products_views",
         "documentation": {}
     },
@@ -1475,47 +1483,38 @@
         "documentation": {}
     },
     {
-        "label": "urlpatterns",
+        "label": "router",
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    # Rotas para produtos\n    path('products', ProductListView.as_view(), name='products-list'),\n    path('products/<uuid:id>', ProductDetailView.as_view(), name='product-detail'),\n    # Rotas para categorias\n    path('categories', CategoryListView.as_view(), name='categories-list'),\n    path('categories/<uuid:category_id>', CategoryDetailView.as_view(), name='category-detail'),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n]",
         "detail": "api.urls",
         "documentation": {}
     },
     {
-        "label": "ProductListView",
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "api.urls",
+        "description": "api.urls",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n]",
+        "detail": "api.urls",
+        "documentation": {}
+    },
+    {
+        "label": "ProductViewSet",
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class ProductListView(ListCreateAPIView):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\nclass ProductDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    lookup_field = 'id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])",
+        "peekOfCode": "class ProductViewSet(ModelViewSet):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    lookup_field = 'id'  # Mantemos o campo de busca como 'id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])\n        except Product.DoesNotExist:\n            raise NotFound({'detail': 'Product Not Found'})\n        serializer = self.get_serializer(instance)",
         "detail": "api.views",
         "documentation": {}
     },
     {
-        "label": "ProductDetailView",
+        "label": "CategoryViewSet",
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class ProductDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    lookup_field = 'id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])\n        except Product.DoesNotExist:\n            raise NotFound({'detail': 'Product Not Found'})\n        serializer = self.get_serializer(instance)",
-        "detail": "api.views",
-        "documentation": {}
-    },
-    {
-        "label": "CategoryListView",
-        "kind": 6,
-        "importPath": "api.views",
-        "description": "api.views",
-        "peekOfCode": "class CategoryListView(ListCreateAPIView):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\nclass CategoryDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    lookup_field = 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])",
-        "detail": "api.views",
-        "documentation": {}
-    },
-    {
-        "label": "CategoryDetailView",
-        "kind": 6,
-        "importPath": "api.views",
-        "description": "api.views",
-        "peekOfCode": "class CategoryDetailView(RetrieveUpdateDestroyAPIView):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    lookup_field = 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])\n        except Category.DoesNotExist:\n            raise NotFound({'detail': 'Category Not Found'})\n        serializer = self.get_serializer(instance)",
+        "peekOfCode": "class CategoryViewSet(ModelViewSet):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    lookup_field = 'category_id'  # Mantemos o campo de busca como 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])\n        except Category.DoesNotExist:\n            raise NotFound({'detail': 'Category Not Found'})\n        serializer = self.get_serializer(instance)",
         "detail": "api.views",
         "documentation": {}
     },

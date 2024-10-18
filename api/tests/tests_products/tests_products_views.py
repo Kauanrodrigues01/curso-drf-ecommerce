@@ -5,7 +5,7 @@ from api.serializers import ProductSerializer
 
 class TestProductsViews(TestBaseProductViews):
     def test_list_products(self):
-        response = self.client.get(reverse('products-list'))
+        response = self.client.get(reverse('product-list'))
         serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))
         self.assertIn(serializer_product1.data, response.data)
         self.assertEqual(response.status_code, 200)
@@ -17,91 +17,91 @@ class TestProductsViews(TestBaseProductViews):
         self.assertEqual(response.status_code, 200)
         
     def test_create_product(self):
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertTrue(Product.objects.filter(name=self.data['name'], description=self.data['description'], old_price=self.data['old_price']).exists())
         self.assertEqual(response.status_code, 201)
     
     # TEST FIELD NAME
     def test_if_an_error_raises_when_trying_to_create_a_product_without_a_name(self):
         del self.data['name']
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_an_error_arises_when_trying_to_create_a_product_with_a_name_of_less_than_3_characters(self):
         self.data['name'] = 'dd'
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_an_error_arises_when_trying_to_create_a_product_with_a_name_longer_than_200_characters(self):
         self.data['name'] = 'a' * 201
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_any_error_appears_when_trying_to_create_a_product_with_a_name_using_just_numbers(self):
         self.data['name'] = '1111'
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_any_error_appears_when_trying_to_create_a_product_with_an_empty_name(self):
         self.data['name'] = ''
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
     
     # TEST FIELD SLUG
     def test_if_an_error_raises_when_trying_to_create_a_product_without_a_slug(self):
         del self.data['slug']
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
             
     def test_if_an_error_arises_when_trying_to_create_a_product_with_a_slug_of_less_than_3_characters(self):
         self.data['slug'] = 'dd'
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_an_error_arises_when_trying_to_create_a_product_with_a_slug_longer_than_100_characters(self):
         self.data['slug'] = 'a' * 101
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_any_error_appears_when_trying_to_create_a_product_with_a_slug_using_just_numbers(self):
         self.data['slug'] = '1111'
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_any_error_appears_when_trying_to_create_a_product_with_an_empty_slug(self):
         self.data['slug'] = ''
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_an_error_raises_when_trying_to_create_a_product_without_a_inventory(self):
         del self.data['inventory']
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_an_error_raises_when_trying_to_create_a_product_without_a_old_price(self):
         del self.data['old_price']
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
     
     # TEST FIELD DESCRIPTION        
     def test_if_an_error_arises_when_trying_to_create_a_product_with_a_description_of_less_than_10_characters(self):
         self.data['description'] = 'd' * 9
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_an_error_arises_when_trying_to_create_a_product_with_a_description_longer_than_800_characters(self):
         self.data['description'] = 'a' * 801
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_any_error_appears_when_trying_to_create_a_product_with_a_description_using_just_numbers(self):
         self.data['description'] = '1111'
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_if_any_error_appears_when_trying_to_create_a_product_with_an_empty_description(self):
         self.data['description'] = ''
-        response = self.client.post(reverse('products-list'), self.data, format='json')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
         self.assertEqual(response.status_code, 400)
         
     def test_product_update(self):
