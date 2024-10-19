@@ -1075,6 +1075,22 @@
         "documentation": {}
     },
     {
+        "label": "BasePermission",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "SAFE_METHODS",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
         "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -1128,14 +1144,6 @@
         "description": "rest_framework.viewsets",
         "isExtraImport": true,
         "detail": "rest_framework.viewsets",
-        "documentation": {}
-    },
-    {
-        "label": "ListAPIView",
-        "importPath": "rest_framework.generics",
-        "description": "rest_framework.generics",
-        "isExtraImport": true,
-        "detail": "rest_framework.generics",
         "documentation": {}
     },
     {
@@ -1643,6 +1651,33 @@
         "documentation": {}
     },
     {
+        "label": "ProductsPermissionsViews",
+        "kind": 6,
+        "importPath": "api.permissions",
+        "description": "api.permissions",
+        "peekOfCode": "class ProductsPermissionsViews(BasePermission):\n    def has_permission(self, request, view):\n        if request.method in SAFE_METHODS:\n            return True\n        if request.method in ('PATCH', 'DELETE', 'POST'):\n            return request.user.is_authenticated and request.user.is_staff\n        return super().has_permission(request, view)\nclass CategoriesPermissionsViews(BasePermission):\n    def has_permission(self, request, view):\n        if request.method in SAFE_METHODS:",
+        "detail": "api.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "CategoriesPermissionsViews",
+        "kind": 6,
+        "importPath": "api.permissions",
+        "description": "api.permissions",
+        "peekOfCode": "class CategoriesPermissionsViews(BasePermission):\n    def has_permission(self, request, view):\n        if request.method in SAFE_METHODS:\n            return True\n        if request.method in ('PATCH', 'DELETE', 'POST'):\n            return request.user.is_authenticated and request.user.is_staff\n        return super().has_permission(request, view)\nclass UserCreatePermissionView(BasePermission):\n    def has_permission(self, request, view):\n        return not request.user.is_authenticated",
+        "detail": "api.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "UserCreatePermissionView",
+        "kind": 6,
+        "importPath": "api.permissions",
+        "description": "api.permissions",
+        "peekOfCode": "class UserCreatePermissionView(BasePermission):\n    def has_permission(self, request, view):\n        return not request.user.is_authenticated",
+        "detail": "api.permissions",
+        "documentation": {}
+    },
+    {
         "label": "ProductSerializer",
         "kind": 6,
         "importPath": "api.serializers",
@@ -1692,7 +1727,7 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class ProductViewSet(ModelViewSet):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    lookup_field = 'id'  # Mantemos o campo de busca como 'id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])\n        except Product.DoesNotExist:\n            raise NotFound({'detail': 'Product Not Found'})\n        serializer = self.get_serializer(instance)",
+        "peekOfCode": "class ProductViewSet(ModelViewSet):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    permission_classes = [ProductsPermissionsViews,]\n    lookup_field = 'id' \n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])\n        except Product.DoesNotExist:\n            raise NotFound({'detail': 'Product Not Found'})",
         "detail": "api.views",
         "documentation": {}
     },
@@ -1701,7 +1736,7 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class CategoryViewSet(ModelViewSet):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    lookup_field = 'category_id'  # Mantemos o campo de busca como 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])\n        except Category.DoesNotExist:\n            raise NotFound({'detail': 'Category Not Found'})\n        serializer = self.get_serializer(instance)",
+        "peekOfCode": "class CategoryViewSet(ModelViewSet):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    permission_classes = [CategoriesPermissionsViews,]\n    lookup_field = 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])\n        except Category.DoesNotExist:\n            raise NotFound({'detail': 'Category Not Found'})",
         "detail": "api.views",
         "documentation": {}
     },
@@ -1710,7 +1745,7 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class UserCreateView(CreateAPIView):\n    queryset = User.objects.all()\n    serializer_class = UserSerializer\n    http_method_names = ['post']",
+        "peekOfCode": "class UserCreateView(CreateAPIView):\n    queryset = User.objects.all()\n    serializer_class = UserSerializer\n    permission_classes = [UserCreatePermissionView]\n    http_method_names = ['post']",
         "detail": "api.views",
         "documentation": {}
     },
@@ -1944,7 +1979,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "STATIC_URL = '/static/'\nSTATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {",
+        "peekOfCode": "STATIC_URL = '/static/'\nSTATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1953,7 +1988,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "STATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'",
+        "peekOfCode": "STATICFILES_DIRS = [BASE_DIR/'static']\nMEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1962,7 +1997,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }",
+        "peekOfCode": "MEDIA_URL = '/media/'\nMEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1971,7 +2006,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "MEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}",
+        "peekOfCode": "MEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1980,7 +2015,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}\nfrom datetime import timedelta\n...\nSIMPLE_JWT = {",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1989,7 +2024,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "AUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}\nfrom datetime import timedelta\n...\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(",
+        "peekOfCode": "AUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    ",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -1998,7 +2033,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHNTICATION_CLASSES': {\n        'rest_framework_simplejwt.authentication.JWTAuthentication'\n    }\n}\nfrom datetime import timedelta\n...\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    ",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    \n    ),",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2007,7 +2042,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "SIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    \n    ),\n    \"REFRESH_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"REFRESH_TOKEN_LIFETIME_SECONDS\", cast=int)\n    ),\n    \"ROTATE_REFRESH_TOKENS\": True,\n    \"BLACKLIST_AFTER_ROTATION\": True,\n    \"TOKEN_OBTAIN_SERIALIZER\": \"rest_framework_simplejwt.serializers.TokenObtainPairSerializer\",",
+        "peekOfCode": "SIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    \n    ),\n    \"REFRESH_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"REFRESH_TOKEN_LIFETIME_SECONDS\", cast=int)\n    ),\n    \"AUTH_HEADER_TYPES\": (\"Bearer\",),\n    \"AUTH_HEADER_NAME\": \"HTTP_AUTHORIZATION\",\n    \"USER_AUTHENTICATION_RULE\": \"rest_framework_simplejwt.authentication.default_user_authentication_rule\",",
         "detail": "ecommerce.settings",
         "documentation": {}
     },

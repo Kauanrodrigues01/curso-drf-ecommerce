@@ -1,15 +1,17 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import CreateAPIView
 from storeapp.models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer, UserSerializer
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from core.models import User
+from .permissions import CategoriesPermissionsViews, ProductsPermissionsViews, UserCreatePermissionView
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    lookup_field = 'id'  # Mantemos o campo de busca como 'id'
+    permission_classes = [ProductsPermissionsViews,]
+    lookup_field = 'id' 
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -22,7 +24,8 @@ class ProductViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    lookup_field = 'category_id'  # Mantemos o campo de busca como 'category_id'
+    permission_classes = [CategoriesPermissionsViews,]
+    lookup_field = 'category_id'
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -35,4 +38,5 @@ class CategoryViewSet(ModelViewSet):
 class UserCreateView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [UserCreatePermissionView]
     http_method_names = ['post']
