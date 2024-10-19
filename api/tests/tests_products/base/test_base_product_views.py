@@ -5,10 +5,12 @@ from django.urls import reverse
 from core.models import User
 
 class TestBaseProductViews(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-        
-        self.product1 = Product.objects.create(
+    @classmethod
+    def setUpTestData(cls):
+        cls.client = APIClient()  # Inicialize o cliente aqui
+
+        # Crie os produtos
+        cls.product1 = Product.objects.create(
             name='Produto teste 1',
             description='Descrição teste 1',
             discount=True,
@@ -19,7 +21,7 @@ class TestBaseProductViews(TestCase):
             flash_sales=False
         )
         
-        self.product2 = Product.objects.create(
+        cls.product2 = Product.objects.create(
             name='Produto teste 2',
             description='Descrição teste 2',
             discount=False,
@@ -30,7 +32,7 @@ class TestBaseProductViews(TestCase):
             flash_sales=True
         )
         
-        self.product3 = Product.objects.create(
+        cls.product3 = Product.objects.create(
             name='Produto teste 3',
             description='Descrição teste 3',
             discount=True,
@@ -41,7 +43,7 @@ class TestBaseProductViews(TestCase):
             flash_sales=False
         )
         
-        self.data = {
+        cls.data = {
             'name': 'New Product',
             'description': 'New description',
             'discount': False,
@@ -52,12 +54,14 @@ class TestBaseProductViews(TestCase):
             'flash_sales': True
         }
         
-        self.admin_user = User.objects.create_superuser(email='AdminUserTeste@gmail.com', first_name='John', last_name='Murphy', password='$Teste123')
+        cls.admin_user = User.objects.create_superuser(email='AdminUserTeste@gmail.com', first_name='John', last_name='Murphy', password='$Teste123')
         
-        self.credentials_admin_user = {
+        cls.credentials_admin_user = {
             'email': 'AdminUserTeste@gmail.com', 
             'password': '$Teste123'
         }
         
-        self.token_admin_user = self.client.post(reverse('login'), self.credentials_admin_user).data['access']
-        return super().setUp()
+        cls.token_admin_user = cls.client.post(reverse('login'), cls.credentials_admin_user).data['access']
+
+    def setUp(self):
+        self.client = APIClient()  # Inicialize o cliente no setUp

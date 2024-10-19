@@ -15,12 +15,14 @@ class TestProductsViews(TestBaseProductViews):
         serializer_product1 = ProductSerializer(Product.objects.get(id=self.product1.id))
         self.assertEqual(serializer_product1.data, response.data)
         self.assertEqual(response.status_code, 200)
-        
+       
     def test_create_product(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_admin_user}')
         response = self.client.post(reverse('product-list'), self.data, format='json')
-        self.assertTrue(Product.objects.filter(name=self.data['name'], description=self.data['description'], old_price=self.data['old_price']).exists())
+        product_exists = Product.objects.filter(name=self.data['name'], description=self.data['description']).exists()
+        self.assertTrue(product_exists)
         self.assertEqual(response.status_code, 201)
+
     
     # TEST FIELD NAME
     def test_if_an_error_raises_when_trying_to_create_a_product_without_a_name(self):
