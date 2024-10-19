@@ -96,8 +96,8 @@ class UserSerializer(serializers.ModelSerializer):
         password = attrs.get('password').strip()
         password_confirmation = attrs.get('password_confirmation').strip()
         
-        errors = validate_string_field('first_name', first_name, min_length=1, max_length=100, list_of_errors=errors)
-        errors = validate_string_field('last_name', last_name, min_length=1, max_length=100, list_of_errors=errors)
+        errors = validate_string_field('first_name', first_name, min_length=2, max_length=100, list_of_errors=errors)
+        errors = validate_string_field('last_name', last_name, min_length=3, max_length=100, list_of_errors=errors)
         errors = validate_password_strength(password, list_of_errors=errors)
         
         if password != password_confirmation:

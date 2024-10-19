@@ -18,17 +18,17 @@ def validate_string_field(field_name, value, min_length=False, max_length=False,
     Raises:
         serializers.ValidationError: If the field value is invalid.
     """
-    field_name = str(field_name)
-    if value is None or value.strip() == "":
-        list_of_errors[field_name].append(f'The {field_name} field cannot be empty')
-    if not isinstance(value, str):
-        list_of_errors[field_name].append(f'The {field_name} field must be a string')
-    if value.isdigit():
-        list_of_errors[field_name].append(f'The {field_name} cannot contain only numbers')
-    if min_length is not False and len(value) < min_length:
-        list_of_errors[field_name].append(f'The {field_name} must be at least {min_length} characters long')
-    if max_length is not False and len(value) > max_length:
-        list_of_errors[field_name].append(f'The {field_name} must have a maximum of {max_length} characters')
+    if value is not None:
+        if value is None or value.strip() == "":
+            list_of_errors[field_name].append(f'The {field_name} field cannot be empty')
+        if not isinstance(value, str):
+            list_of_errors[field_name].append(f'The {field_name} field must be a string')
+        if value.isdigit():
+            list_of_errors[field_name].append(f'The {field_name} cannot contain only numbers')
+        if min_length is not False and len(value) < min_length:
+            list_of_errors[field_name].append(f'The {field_name} must be at least {min_length} characters long')
+        if max_length is not False and len(value) > max_length:
+            list_of_errors[field_name].append(f'The {field_name} must have a maximum of {max_length} characters')
     
     return list_of_errors
 

@@ -737,6 +737,14 @@
         "documentation": {}
     },
     {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
         "label": "path",
         "importPath": "django.urls",
         "description": "django.urls",
@@ -1048,6 +1056,14 @@
         "importPath": "email",
         "description": "email",
         "detail": "email",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseUserViews",
+        "importPath": "api.tests.tests_users.base.test_base_user_views",
+        "description": "api.tests.tests_users.base.test_base_user_views",
+        "isExtraImport": true,
+        "detail": "api.tests.tests_users.base.test_base_user_views",
         "documentation": {}
     },
     {
@@ -1596,8 +1612,17 @@
         "kind": 6,
         "importPath": "api.tests.tests_users.base.test_base_user_views",
         "description": "api.tests.tests_users.base.test_base_user_views",
-        "peekOfCode": "class TestBaseUserViews(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        return super().setUp()",
+        "peekOfCode": "class TestBaseUserViews(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.data_user = {\n            'email': 'test22@gmail.com',\n            'first_name': 'John',\n            'last_name': 'Fridey',\n            'password': '#Password11',\n            'password_confirmation': '#Password11'\n        }",
         "detail": "api.tests.tests_users.base.test_base_user_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestUserViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_users.test_user_views",
+        "description": "api.tests.tests_users.test_user_views",
+        "peekOfCode": "class TestUserViews(TestBaseUserViews):\n    def test_create_user(self):\n        response = self.client.post(reverse('user-register'), self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertEqual(response.status_code, 201)\n    def test_if_you_are_automatically_creating_the_customer_with_the_user(self):\n        response = self.client.post(reverse('user-register'), self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertTrue(Customer.objects.filter(email=self.data_user['email']))\n        self.assertEqual(response.status_code, 201)",
+        "detail": "api.tests.tests_users.test_user_views",
         "documentation": {}
     },
     {
