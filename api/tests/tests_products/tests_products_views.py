@@ -135,7 +135,8 @@ class TestProductsViews(TestBaseProductViews):
         self.assertEqual(product.inventory, self.data['inventory'])
         self.assertEqual(product.top_deal, self.data['top_deal'])
         self.assertEqual(product.flash_sales, self.data['flash_sales'])
-        
+    
+    # TEST UPDATE
     def test_product_name_update(self):
         self.data = {'name': self.data['name']}
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_admin_user}')
@@ -156,9 +157,44 @@ class TestProductsViews(TestBaseProductViews):
         self.client.patch(reverse('product-detail', kwargs={'id': self.product1.id}), self.data)
         product = Product.objects.get(id=self.product1.id)
         self.assertEqual(product.inventory, self.data['inventory'])
-                
+    
+    # TESTE DELETE
     def test_delete_product(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_admin_user}')
         response = self.client.delete(reverse('product-detail', kwargs={'id': self.product1.id}))
         self.assertFalse(Product.objects.filter(id=self.product1.id).exists())
         self.assertEqual(response.status_code, 204)
+        
+    # TEST PERMISSIONS
+    def test_if_anonymous_users_cannot_access_the_crete_product_route(self):
+        response = self.client.post(reverse('product-list'), self.data, format='json')
+        product_exists = Product.objects.filter(name=self.data['name'], description=self.data['description']).exists()
+        self.assertFalse(product_exists)
+        self.assertEqual(response.status_code, 401)
+
+    def test_if_anonymous_users_cannot_access_the_update_product_route(self):
+        response = self.client.patch(reverse('product-detail', kwargs={'id': self.product1.id}), self.data)
+        self.assertEqual(response.status_code, 401)
+
+    def test_if_anonymous_users_cannot_access_the_delete_product_route(self):
+        response = self.client.delete(reverse('product-detail', kwargs={'id': self.product1.id}))
+        self.assertTrue(Product.objects.filter(id=self.product1.id).exists())
+        self.assertEqual(response.status_code, 401)
+    
+    def test_if_users_who_are_not_administrators_cannot_access_the_crete_product_route(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_common_user}')
+        response = self.client.post(reverse('product-list'), self.data, format='json')
+        product_exists = Product.objects.filter(name=self.data['name'], description=self.data['description']).exists()
+        self.assertFalse(product_exists)
+        self.assertEqual(response.status_code, 403)
+
+    def test_if_users_who_are_not_administrators_cannot_access_the_update_product_route(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_common_user}')
+        response = self.client.patch(reverse('product-detail', kwargs={'id': self.product1.id}), self.data)
+        self.assertEqual(response.status_code, 403)
+
+    def test_if_users_who_are_not_administrators_cannot_access_the_delete_product_route(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_common_user}')
+        response = self.client.delete(reverse('product-detail', kwargs={'id': self.product1.id}))
+        self.assertTrue(Product.objects.filter(id=self.product1.id).exists())
+        self.assertEqual(response.status_code, 403)

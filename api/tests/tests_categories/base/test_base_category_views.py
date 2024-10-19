@@ -34,14 +34,21 @@ class TestBaseCategoryViews(TestCase):
             'icon': 'icon4.png'
         }
         
+        # Admin User
         cls.admin_user = User.objects.create_superuser(email='AdminUserTeste@gmail.com', first_name='John', last_name='Murphy', password='$Teste123')
-        
         cls.credentials_admin_user = {
             'email': 'AdminUserTeste@gmail.com', 
             'password': '$Teste123'
         }
-        
         cls.token_admin_user = cls.client.post(reverse('login'), cls.credentials_admin_user).data['access']
+        
+        # Common User
+        cls.common_user = User.objects.create_user(email='CommonUserTest@gmail.com', first_name='John', last_name='Murphy', password='$Teste123')
+        cls.credentials_common_user = {
+            'email': 'CommonUserTest@gmail.com', 
+            'password': '$Teste123'
+        }
+        cls.token_common_user = cls.client.post(reverse('login'), cls.credentials_common_user).data['access']
     
     def setUp(self):
         self.client = APIClient()

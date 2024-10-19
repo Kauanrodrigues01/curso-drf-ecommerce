@@ -15,7 +15,8 @@ class TestCategoryViews(TestBaseCategoryViews):
         serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))
         self.assertEqual(serializer_category1.data, response.data)
         self.assertEqual(response.status_code, 200)
-        
+    
+    # TEST CREATE ROUTE   
     def test_create_category(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_admin_user}')
         response = self.client.post(reverse('category-list'), self.data)
@@ -83,7 +84,8 @@ class TestCategoryViews(TestBaseCategoryViews):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_admin_user}')
         response = self.client.post(reverse('category-list'), self.data)
         self.assertEqual(response.status_code, 400)
-      
+    
+    # TEST UPDATE ROUTE   
     def test_category_update(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_admin_user}')
         response = self.client.patch(reverse('category-detail', kwargs={'category_id': self.category1.category_id}), self.data)
@@ -106,9 +108,44 @@ class TestCategoryViews(TestBaseCategoryViews):
         serializer_category1 = CategorySerializer(Category.objects.get(category_id=self.category1.category_id))
         self.assertEqual(serializer_category1.data, response.data)
         self.assertEqual(response.status_code, 200)
-                
+    
+    # TEST DELETE ROUTE      
     def test_delete_category(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_admin_user}')
         response = self.client.delete(reverse('category-detail', kwargs={'category_id': self.category1.category_id}), self.data)
         self.assertFalse(Category.objects.filter(category_id=self.category1.category_id).exists())
         self.assertEqual(response.status_code, 204)
+        
+    # TEST PERMISSIONS
+    def test_if_anonymous_users_cannot_access_the_crete_category_route(self):
+        response = self.client.post(reverse('category-list'), self.data, format='json')
+        category_exists = Category.objects.filter(title=self.data['title'], slug=self.data['slug']).exists()
+        self.assertFalse(category_exists)
+        self.assertEqual(response.status_code, 401)
+
+    def test_if_anonymous_users_cannot_access_the_update_category_route(self):
+        response = self.client.patch(reverse('category-detail', kwargs={'category_id': self.category1.category_id}), self.data)
+        self.assertEqual(response.status_code, 401)
+
+    def test_if_anonymous_users_cannot_access_the_delete_category_route(self):
+        response = self.client.delete(reverse('category-detail', kwargs={'category_id': self.category1.category_id}))
+        self.assertTrue(Category.objects.filter(category_id=self.category1.category_id).exists())
+        self.assertEqual(response.status_code, 401)
+    
+    def test_if_users_who_are_not_administrators_cannot_access_the_crete_category_route(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_common_user}')
+        response = self.client.post(reverse('category-list'), self.data, format='json')
+        category_exists = Category.objects.filter(title=self.data['title'], slug=self.data['slug']).exists()
+        self.assertFalse(category_exists)
+        self.assertEqual(response.status_code, 403)
+
+    def test_if_users_who_are_not_administrators_cannot_access_the_update_category_route(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_common_user}')
+        response = self.client.patch(reverse('category-detail', kwargs={'category_id': self.category1.category_id}), self.data)
+        self.assertEqual(response.status_code, 403)
+
+    def test_if_users_who_are_not_administrators_cannot_access_the_delete_category_route(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_common_user}')
+        response = self.client.delete(reverse('category-detail', kwargs={'category_id': self.category1.category_id}))
+        self.assertTrue(Category.objects.filter(category_id=self.category1.category_id).exists())
+        self.assertEqual(response.status_code, 403)
