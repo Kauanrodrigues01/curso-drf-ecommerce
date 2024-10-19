@@ -745,6 +745,14 @@
         "documentation": {}
     },
     {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
         "label": "path",
         "importPath": "django.urls",
         "description": "django.urls",
@@ -1621,7 +1629,7 @@
         "kind": 6,
         "importPath": "api.tests.tests_users.test_user_views",
         "description": "api.tests.tests_users.test_user_views",
-        "peekOfCode": "class TestUserViews(TestBaseUserViews):\n    def test_create_user(self):\n        response = self.client.post(reverse('user-register'), self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertEqual(response.status_code, 201)\n    def test_if_you_are_automatically_creating_the_customer_with_the_user(self):\n        response = self.client.post(reverse('user-register'), self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertTrue(Customer.objects.filter(email=self.data_user['email']))\n        self.assertEqual(response.status_code, 201)",
+        "peekOfCode": "class TestUserViews(TestBaseUserViews):\n    def test_create_user(self):\n        response = self.client.post(self.url_register_user, self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertEqual(response.status_code, 201)\n    def test_if_you_are_automatically_creating_the_customer_with_the_user(self):\n        response = self.client.post(self.url_register_user, self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertTrue(Customer.objects.filter(email=self.data_user['email']))\n        self.assertEqual(response.status_code, 201)",
         "detail": "api.tests.tests_users.test_user_views",
         "documentation": {}
     },

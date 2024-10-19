@@ -1,6 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
-
+from django.urls import reverse
 
 class TestBaseUserViews(TestCase):
     def setUp(self):
@@ -12,4 +12,6 @@ class TestBaseUserViews(TestCase):
             'password': '#Password11',
             'password_confirmation': '#Password11'
         }
+        
+        self.url_register_user = reverse('user-register')
         return super().setUp()
