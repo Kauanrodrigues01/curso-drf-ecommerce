@@ -22,7 +22,6 @@ class TestProductsViews(TestBaseProductViews):
         product_exists = Product.objects.filter(name=self.data['name'], description=self.data['description']).exists()
         self.assertTrue(product_exists)
         self.assertEqual(response.status_code, 201)
-
     
     # TEST FIELD NAME
     def test_if_an_error_raises_when_trying_to_create_a_product_without_a_name(self):

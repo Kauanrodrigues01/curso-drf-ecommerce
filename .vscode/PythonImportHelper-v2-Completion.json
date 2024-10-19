@@ -705,7 +705,24 @@
         "documentation": {}
     },
     {
+        "label": "django.urls",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
         "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
         "importPath": "django.urls",
         "description": "django.urls",
         "isExtraImport": true,
@@ -1002,6 +1019,46 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
         "label": "TestBaseCategoryViews",
         "importPath": "api.tests.tests_categories.base.test_base_category_views",
         "description": "api.tests.tests_categories.base.test_base_category_views",
@@ -1023,38 +1080,6 @@
         "description": "api.serializers",
         "isExtraImport": true,
         "detail": "api.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "core.models",
-        "description": "core.models",
-        "isExtraImport": true,
-        "detail": "core.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "core.models",
-        "description": "core.models",
-        "isExtraImport": true,
-        "detail": "core.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "core.models",
-        "description": "core.models",
-        "isExtraImport": true,
-        "detail": "core.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "core.models",
-        "description": "core.models",
-        "isExtraImport": true,
-        "detail": "core.models",
         "documentation": {}
     },
     {
@@ -1600,7 +1625,7 @@
         "kind": 6,
         "importPath": "api.tests.tests_categories.base.test_base_category_views",
         "description": "api.tests.tests_categories.base.test_base_category_views",
-        "peekOfCode": "class TestBaseCategoryViews(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.category1 = Category.objects.create(\n            title='Category test 1',\n            slug='category-test-1',\n            icon='icon1.png'\n        )\n        self.category2 = Category.objects.create(\n            title='Category test 2',",
+        "peekOfCode": "class TestBaseCategoryViews(TestCase):\n    @classmethod\n    def setUpTestData(cls):\n        cls.client = APIClient()\n        cls.category1 = Category.objects.create(\n            title='Category test 1',\n            slug='category-test-1',\n            icon='icon1.png'\n        )\n        cls.category2 = Category.objects.create(",
         "detail": "api.tests.tests_categories.base.test_base_category_views",
         "documentation": {}
     },

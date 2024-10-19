@@ -64,4 +64,4 @@ class TestBaseProductViews(TestCase):
         cls.token_admin_user = cls.client.post(reverse('login'), cls.credentials_admin_user).data['access']
 
     def setUp(self):
-        self.client = APIClient()  # Inicialize o cliente no setUp
+        self.client = APIClient() 
