@@ -2,6 +2,7 @@ from django.test import TestCase
 from storeapp.models import Product
 from rest_framework.test import APIClient
 from django.urls import reverse
+from core.models import User
 
 class TestBaseProductViews(TestCase):
     def setUp(self):
@@ -50,4 +51,13 @@ class TestBaseProductViews(TestCase):
             'top_deal': False,
             'flash_sales': True
         }
+        
+        self.admin_user = User.objects.create_superuser(email='AdminUserTeste@gmail.com', first_name='John', last_name='Murphy', password='$Teste123')
+        
+        self.credentials_admin_user = {
+            'email': 'AdminUserTeste@gmail.com', 
+            'password': '$Teste123'
+        }
+        
+        self.token_admin_user = self.client.post(reverse('login'), self.credentials_admin_user).data['access']
         return super().setUp()

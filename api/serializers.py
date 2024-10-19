@@ -30,8 +30,8 @@ class ProductSerializer(serializers.ModelSerializer):
         if description is not None:
             errors = validate_string_field('description', description, min_length=10, max_length=800, list_of_errors=errors)
 
-        if not attrs.get('slug') is None:
-            errors = validate_string_field('slug', attrs.get('slug'), min_length=3, max_length=100, list_of_errors=errors)
+        
+        errors = validate_string_field('slug', attrs.get('slug'), min_length=3, max_length=100, list_of_errors=errors)
 
         if errors:
             raise serializers.ValidationError(errors)
