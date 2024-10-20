@@ -62,13 +62,14 @@ def validate_password_strength(password, list_of_errors=[]):
     Raises:
         serializers.ValidationError: If the password does not meet the strength criteria.
     """
-    if len(password) < 6:
-        list_of_errors['password'].append("Password must be at least 6 characters long.")
-    
-    if not re.search(r'\d', password):
-        list_of_errors['password'].append("Password must contain at least one number.")
-    
-    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
-        list_of_errors['password'].append("Password must contain at least one special character.")
+    if password is not None:
+        if len(password) < 6:
+            list_of_errors['password'].append("Password must be at least 6 characters long.")
+        
+        if not re.search(r'\d', password):
+            list_of_errors['password'].append("Password must contain at least one number.")
+        
+        if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+            list_of_errors['password'].append("Password must contain at least one special character.")
 
     return list_of_errors

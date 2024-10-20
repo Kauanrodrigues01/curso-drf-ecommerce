@@ -1059,6 +1059,14 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
         "label": "TestBaseCategoryViews",
         "importPath": "api.tests.tests_categories.base.test_base_category_views",
         "description": "api.tests.tests_categories.base.test_base_category_views",
@@ -1076,6 +1084,14 @@
     },
     {
         "label": "ProductSerializer",
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "isExtraImport": true,
+        "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "UserSerializer",
         "importPath": "api.serializers",
         "description": "api.serializers",
         "isExtraImport": true,
@@ -1132,6 +1148,14 @@
         "documentation": {}
     },
     {
+        "label": "IsAdminUser",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
         "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -1172,6 +1196,14 @@
         "documentation": {}
     },
     {
+        "label": "gettext_lazy",
+        "importPath": "django.utils.translation",
+        "description": "django.utils.translation",
+        "isExtraImport": true,
+        "detail": "django.utils.translation",
+        "documentation": {}
+    },
+    {
         "label": "DefaultRouter",
         "importPath": "rest_framework.routers",
         "description": "rest_framework.routers",
@@ -1188,19 +1220,11 @@
         "documentation": {}
     },
     {
-        "label": "CreateAPIView",
-        "importPath": "rest_framework.generics",
-        "description": "rest_framework.generics",
+        "label": "ModelViewSet",
+        "importPath": "rest_framework.viewsets",
+        "description": "rest_framework.viewsets",
         "isExtraImport": true,
-        "detail": "rest_framework.generics",
-        "documentation": {}
-    },
-    {
-        "label": "RetrieveAPIView",
-        "importPath": "rest_framework.generics",
-        "description": "rest_framework.generics",
-        "isExtraImport": true,
-        "detail": "rest_framework.generics",
+        "detail": "rest_framework.viewsets",
         "documentation": {}
     },
     {
@@ -1217,6 +1241,30 @@
         "description": "rest_framework.response",
         "isExtraImport": true,
         "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "CreateAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
+        "documentation": {}
+    },
+    {
+        "label": "RetrieveUpdateDestroyAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
         "documentation": {}
     },
     {
@@ -1677,7 +1725,7 @@
         "kind": 6,
         "importPath": "api.tests.tests_users.base.test_base_user_views",
         "description": "api.tests.tests_users.base.test_base_user_views",
-        "peekOfCode": "class TestBaseUserViews(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.data_user = {\n            'email': 'test22@gmail.com',\n            'first_name': 'John',\n            'last_name': 'Fridey',\n            'password': '#Password11',\n            'password_confirmation': '#Password11'\n        }",
+        "peekOfCode": "class TestBaseUserViews(TestCase):\n    @classmethod\n    def setUpTestData(cls):\n        cls.client = APIClient()\n        cls.url_register_user = reverse('user-register')\n        cls.data_user = {\n            'email': 'test22@gmail.com',\n            'first_name': 'John',\n            'last_name': 'Fridey',\n            'password': '#Password11',",
         "detail": "api.tests.tests_users.base.test_base_user_views",
         "documentation": {}
     },
@@ -1686,7 +1734,7 @@
         "kind": 6,
         "importPath": "api.tests.tests_users.test_user_views",
         "description": "api.tests.tests_users.test_user_views",
-        "peekOfCode": "class TestUserViews(TestBaseUserViews):\n    # TEST CREATE\n    def test_create_user(self):\n        response = self.client.post(self.url_register_user, self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertEqual(response.status_code, 201)\n    def test_if_you_are_automatically_creating_the_customer_with_the_user(self):\n        response = self.client.post(self.url_register_user, self.data_user)\n        self.assertTrue(User.objects.filter(email=self.data_user['email']))\n        self.assertTrue(Customer.objects.filter(email=self.data_user['email']))",
+        "peekOfCode": "class TestUserViews(TestBaseUserViews):\n    def test_if_the_user_me_route_returns_the_logged_in_user(self):\n        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')\n        response = self.client.get(reverse('user-me'))\n        serializer = UserSerializer(self.user_test)\n        self.assertEqual(response.data, serializer.data)\n        self.assertEqual(response.status_code, 200)\n    # TEST CREATE ROUTE\n    def test_create_user(self):\n        response = self.client.post(self.url_register_user, self.data_user)",
         "detail": "api.tests.tests_users.test_user_views",
         "documentation": {}
     },
@@ -1754,11 +1802,20 @@
         "documentation": {}
     },
     {
+        "label": "UserUpdateSerializer",
+        "kind": 6,
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "peekOfCode": "class UserUpdateSerializer(serializers.ModelSerializer):\n    current_password = serializers.CharField(write_only=True, required=False)\n    password = serializers.CharField(write_only=True, required=False)\n    password_confirmation = serializers.CharField(write_only=True, required=False)\n    class Meta:\n        model = User\n        fields = ['email', 'first_name', 'last_name', 'current_password', 'password', 'password_confirmation']\n    def validate(self, attrs):\n        user = self.context.get('user')\n        current_password = attrs.get('current_password')",
+        "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
         "label": "router",
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailView.as_view(), name='user-me')\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1767,7 +1824,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailView.as_view(), name='user-me')\n]",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1792,19 +1849,28 @@
     {
         "label": "UserCreateView",
         "kind": 6,
-        "importPath": "api.views",
-        "description": "api.views",
-        "peekOfCode": "class UserCreateView(CreateAPIView):\n    queryset = User.objects.all()\n    serializer_class = UserSerializer\n    permission_classes = [UserCreatePermissionView]\n    http_method_names = ['post']\nclass UserDetailView(RetrieveAPIView):\n    serializer_class = UserSerializer\n    permission_classes = [IsAuthenticated]\n    def get_object(self):\n        return self.request.user",
-        "detail": "api.views",
+        "importPath": "api.views_users",
+        "description": "api.views_users",
+        "peekOfCode": "class UserCreateView(CreateAPIView):\n    queryset = User.objects.all()\n    serializer_class = UserSerializer\n    permission_classes = [UserCreatePermissionView]\n    http_method_names = ['post']\nclass UserDetailMeView(RetrieveUpdateDestroyAPIView):\n    serializer_class = UserSerializer\n    permission_classes = [IsAuthenticated]\n    def get_object(self):\n        return self.request.user",
+        "detail": "api.views_users",
         "documentation": {}
     },
     {
-        "label": "UserDetailView",
+        "label": "UserDetailMeView",
         "kind": 6,
-        "importPath": "api.views",
-        "description": "api.views",
-        "peekOfCode": "class UserDetailView(RetrieveAPIView):\n    serializer_class = UserSerializer\n    permission_classes = [IsAuthenticated]\n    def get_object(self):\n        return self.request.user",
-        "detail": "api.views",
+        "importPath": "api.views_users",
+        "description": "api.views_users",
+        "peekOfCode": "class UserDetailMeView(RetrieveUpdateDestroyAPIView):\n    serializer_class = UserSerializer\n    permission_classes = [IsAuthenticated]\n    def get_object(self):\n        return self.request.user\n    def update(self, request, *args, **kwargs):\n        partial = kwargs.pop('partial', False)\n        instance = self.get_object()\n        serializer = UserUpdateSerializer(instance, data=request.data, partial=partial, context={'user': request.user})\n        serializer.is_valid(raise_exception=True)",
+        "detail": "api.views_users",
+        "documentation": {}
+    },
+    {
+        "label": "UserViewAdmin",
+        "kind": 6,
+        "importPath": "api.views_users",
+        "description": "api.views_users",
+        "peekOfCode": "class UserViewAdmin(ModelViewSet):\n    serializer_class = UserSerializer\n    queryset = User.objects.all()\n    permission_classes = [IsAdminUser]\n    http_method_names = ['get']\n    lookup_field = 'id'",
+        "detail": "api.views_users",
         "documentation": {}
     },
     {
@@ -2523,7 +2589,7 @@
         "kind": 2,
         "importPath": "utils",
         "description": "utils",
-        "peekOfCode": "def validate_password_strength(password, list_of_errors=[]):\n    \"\"\"Validates the strength of a password.\n    Args:\n        password (str): The password to validate.\n    Returns:\n        list: A list of error messages if the password is weak.\n    Raises:\n        serializers.ValidationError: If the password does not meet the strength criteria.\n    \"\"\"\n    if len(password) < 6:",
+        "peekOfCode": "def validate_password_strength(password, list_of_errors=[]):\n    \"\"\"Validates the strength of a password.\n    Args:\n        password (str): The password to validate.\n    Returns:\n        list: A list of error messages if the password is weak.\n    Raises:\n        serializers.ValidationError: If the password does not meet the strength criteria.\n    \"\"\"\n    if password is not None:",
         "detail": "utils",
         "documentation": {}
     }

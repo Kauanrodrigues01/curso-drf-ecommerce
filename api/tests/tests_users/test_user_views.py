@@ -1,11 +1,18 @@
 from UserProfile.models import Customer
 from core.models import User
-import email
 from api.tests.tests_users.base.test_base_user_views import TestBaseUserViews
 from django.urls import reverse
+from api.serializers import UserSerializer
 
 class TestUserViews(TestBaseUserViews):
-    # TEST CREATE
+    def test_if_the_user_me_route_returns_the_logged_in_user(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
+        response = self.client.get(reverse('user-me'))
+        serializer = UserSerializer(self.user_test)
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, 200)
+        
+    # TEST CREATE ROUTE
     def test_create_user(self):
         response = self.client.post(self.url_register_user, self.data_user)
         self.assertTrue(User.objects.filter(email=self.data_user['email']))
@@ -91,3 +98,62 @@ class TestUserViews(TestBaseUserViews):
         self.data_user['password_confirmation'] = '@Password123'
         response = self.client.post(self.url_register_user, self.data_user)
         self.assertEqual(response.status_code, 400)
+        
+    # TEST UPDATE ROUTE
+    def test_logged_in_user_update(self):
+        self.data_user['current_password'] = '#Test11'
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
+        response = self.client.patch(reverse('user-me'), self.data_user)
+        user = User.objects.get(id=self.user_test.id)
+        self.assertEqual(user.email, self.data_user['email'])
+        self.assertEqual(user.first_name, self.data_user['first_name'])
+        self.assertEqual(user.last_name, self.data_user['last_name'])
+        self.assertTrue(user.check_password(self.data_user['password']))
+        self.assertEqual(response.status_code, 200)
+        
+    def test_update_email(self):
+        data = {'email': 'updatedemail@gmail.com', 'current_password': '#Test11'}
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
+        response = self.client.patch(reverse('user-me'), data)
+        user = User.objects.get(id=self.user_test.id)
+        
+        self.assertEqual(user.email, data['email'])
+        self.assertEqual(response.status_code, 200)
+        
+    def test_update_first_name(self):
+        data = {'first_name': 'UpdatedFirstName', 'current_password': '#Test11'}
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
+        response = self.client.patch(reverse('user-me'), data)
+        user = User.objects.get(id=self.user_test.id)
+        
+        self.assertEqual(user.first_name, data['first_name'])
+        self.assertEqual(response.status_code, 200)
+        
+    def test_update_last_name(self):
+        data = {'last_name': 'UpdatedLastName', 'current_password': '#Test11'}
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
+        response = self.client.patch(reverse('user-me'), data)
+        user = User.objects.get(id=self.user_test.id)
+        
+        self.assertEqual(user.last_name, data['last_name'])
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_password(self):
+        data = {
+            'password': 'NewPassword#11',
+            'password_confirmation': 'NewPassword#11',
+            'current_password': '#Test11'
+        }
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
+        response = self.client.patch(reverse('user-me'), data)
+        user = User.objects.get(id=self.user_test.id)
+        
+        self.assertTrue(user.check_password(data['password']))
+        self.assertEqual(response.status_code, 200)
+
+    # TEST DELETE ROUTE
+    def test_delete_logged_in_user(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
+        response = self.client.delete(reverse('user-me'))
+        self.assertFalse(User.objects.filter(email='TestUser@gmail.com', first_name='Robert', last_name='Garcia').exists())
+        self.assertEqual(response.status_code, 204)
