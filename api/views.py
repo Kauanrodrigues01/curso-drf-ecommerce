@@ -2,14 +2,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from storeapp.models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer
+from .serializers import ProductSerializer, CategorySerializer, CartSerializer
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
 from .permissions import CategoriesPermissionsViews, ProductsPermissionsViews
 from django.utils.crypto import get_random_string
 from storeapp.models import Cart
-from .serializers import CartSerializer
+from UserProfile.models import Customer
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
@@ -51,15 +51,27 @@ class CartView(APIView):
         # Obtém o session_id da sessão atual ou gera uma nova chave
         session_id = request.session.session_key or get_random_string(32)
         
-        # Adiciona o session_id aos dados que serão passados para o serializer
         data = {
             'session_id': session_id,
             'completed': False
         }
 
-        # Cria um novo carrinho usando os dados fornecidos
         serializer = CartSerializer(data=data, context={'user': request.user})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request):
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        
+        try:
+            cart = Cart.objects.get(owner=customer)
+            serializer = CartSerializer(cart)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Cart.DoesNotExist:
+            return Response(
+                {"detail": "Carrinho não encontrado."},
+                status=status.HTTP_404_NOT_FOUND
+            )

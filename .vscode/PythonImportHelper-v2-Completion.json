@@ -883,6 +883,14 @@
         "documentation": {}
     },
     {
+        "label": "Customer",
+        "importPath": "UserProfile.models",
+        "description": "UserProfile.models",
+        "isExtraImport": true,
+        "detail": "UserProfile.models",
+        "documentation": {}
+    },
+    {
         "label": "Address",
         "importPath": "UserProfile.models",
         "description": "UserProfile.models",
@@ -1906,7 +1914,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('cart/', CartView.as_view(), name='cart-create')",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create')",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1915,7 +1923,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('cart/', CartView.as_view(), name='cart-create')\n]",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1942,7 +1950,7 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class CartView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request, *args, **kwargs):\n        # Verifica se já existe uma session_key, se não, gera uma\n        if not request.session.session_key:\n            request.session.create()\n        # Obtém o session_id da sessão atual ou gera uma nova chave\n        session_id = request.session.session_key or get_random_string(32)\n        # Adiciona o session_id aos dados que serão passados para o serializer\n        data = {",
+        "peekOfCode": "class CartView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request, *args, **kwargs):\n        # Verifica se já existe uma session_key, se não, gera uma\n        if not request.session.session_key:\n            request.session.create()\n        # Obtém o session_id da sessão atual ou gera uma nova chave\n        session_id = request.session.session_key or get_random_string(32)\n        data = {\n            'session_id': session_id,",
         "detail": "api.views",
         "documentation": {}
     },
