@@ -1904,7 +1904,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class CartitemsSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Cartitems\n        fields = ['cart', 'product', 'quantity', 'subTotal']\n        read_only_fields = ['subTotal']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        # Validação da quantidade\n        quantity = attrs.get('quantity')\n        if quantity is not None and quantity <= 0:",
+        "peekOfCode": "class CartitemsSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Cartitems\n        fields = ['id', 'cart', 'product', 'quantity', 'subTotal']\n        read_only_fields = ['subTotal']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        quantity = attrs.get('quantity')\n        if quantity is not None and quantity <= 0:\n            errors['quantity'].append('Quantity must be greater than zero.')",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1931,7 +1931,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create'),\n    path('carts/items/', CartitemsViews.as_view(), name='cart-items')\n]",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create'),\n    path('carts/items/', CartitemsViews.as_view(), name='cartitems-list'),\n    path('carts/items/<int:id>/', CartitemsDetailView.as_view(), name='cartitems-detail')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1968,6 +1968,15 @@
         "importPath": "api.views",
         "description": "api.views",
         "peekOfCode": "class CartitemsViews(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request, *args, **kwargs):\n        user = request.user\n        customer = Customer.objects.get(user=user)\n        # Busca ou cria o carrinho do cliente\n        try:\n            cart = Cart.objects.get(owner=customer)\n        except Cart.DoesNotExist:\n            return Response({\"detail\": \"Cart not found.\"}, status=status.HTTP_404_NOT_FOUND)",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "CartitemsDetailView",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class CartitemsDetailView(APIView):\n    permission_classes = [IsAuthenticated]\n    def patch(self, request, id):\n        quantity = request.data.get('quantity')\n        data = {\n            'quantity': quantity\n        }\n        try:\n            cart_items = Cartitems.objects.get(id=id)\n        except Cartitems.DoesNotExist:",
         "detail": "api.views",
         "documentation": {}
     },

@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from .views import ProductViewSet, CategoryViewSet, CartView, CartitemsViews
+from .views import ProductViewSet, CategoryViewSet, CartView, CartitemsViews, CartitemsDetailView
 from .views_users import UserCreateView, UserDetailMeView, UserViewAdmin
 
 router = DefaultRouter()
@@ -15,5 +15,6 @@ urlpatterns = [
     path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),
     
     path('carts/', CartView.as_view(), name='cart-create'),
-    path('carts/items/', CartitemsViews.as_view(), name='cart-items')
+    path('carts/items/', CartitemsViews.as_view(), name='cartitems-list'),
+    path('carts/items/<int:id>/', CartitemsDetailView.as_view(), name='cartitems-detail')
 ]

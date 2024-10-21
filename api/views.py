@@ -100,7 +100,6 @@ class CartitemsViews(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, *args, **kwargs):
-        """Lista todos os CartItems do carrinho do usuário."""
         user = request.user
         customer = Customer.objects.get(user=user)
         
@@ -112,3 +111,33 @@ class CartitemsViews(APIView):
         cart_items = Cartitems.objects.filter(cart=cart)
         serializer = CartitemsSerializer(cart_items, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class CartitemsDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def patch(self, request, id):
+        quantity = request.data.get('quantity')
+        data = {
+            'quantity': quantity
+        }
+        
+        try:
+            cart_items = Cartitems.objects.get(id=id)
+        except Cartitems.DoesNotExist:
+            return Response({"detail": "Cartitem not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CartitemsSerializer(cart_items, data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, id):
+        try:
+            cart_items = Cartitems.objects.get(id=id)
+        except Cartitems.DoesNotExist:
+            return Response({"detail": "Cartitem not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        cart_items.delete()
+        return Response([], status=status.HTTP_204_NO_CONTENT)
+        

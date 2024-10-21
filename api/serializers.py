@@ -217,19 +217,17 @@ class CartSerializer(serializers.ModelSerializer):
 class CartitemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cartitems
-        fields = ['cart', 'product', 'quantity', 'subTotal']
+        fields = ['id', 'cart', 'product', 'quantity', 'subTotal']
         read_only_fields = ['subTotal']
 
     def validate(self, attrs):
         errors = defaultdict(list)
 
-        # Validação da quantidade
         quantity = attrs.get('quantity')
         if quantity is not None and quantity <= 0:
             errors['quantity'].append('Quantity must be greater than zero.')
 
-        # Verificação se o produto foi passado
-        if not attrs.get('product'):
+        if not attrs.get('product') and not self.instance:
             errors['product'].append('Product cannot be null.')
 
         if errors:
