@@ -1,3 +1,4 @@
+import email
 from rest_framework import serializers
 from storeapp.models import Category, Product
 from utils import validate_string_field, validate_password_strength
@@ -5,6 +6,7 @@ from core.models import User
 from UserProfile.models import Customer
 from collections import defaultdict
 from django.utils.translation import gettext_lazy as _
+from storeapp.models import Cart, Cartitems, SavedItem
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -175,5 +177,100 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         if password:
             instance.set_password(password)
 
+        instance.save()
+        return instance
+    
+    
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = ['cart_id', 'owner', 'created', 'completed', 'session_id', 'num_of_items', 'cart_total']
+        read_only_fields = ['cart_id', 'created', 'num_of_items', 'cart_total', 'owner']
+
+    def validate(self, attrs):
+        errors = defaultdict(list)
+        user = self.context.get('user')
+        customer = Customer.objects.get(user=user)
+        
+        if Cart.objects.filter(owner=customer).exists():
+            raise serializers.ValidationError({'error': 'There is already a cart with this customer'})
+        
+        # Validação do campo 'completed'
+        completed = attrs.get('completed')
+        if completed not in [True, False]:
+            errors['completed'].append('The completed field must be True or False.')
+        
+        # Verificação de session_id
+        if attrs.get('session_id') is None:
+            errors['session_id'].append('Session ID cannot be null.')
+            
+        attrs['owner'] = customer
+
+        # Caso haja algum erro, ele será levantado
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return attrs
+
+
+class CartitemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cartitems
+        fields = ['cart', 'product', 'quantity', 'subTotal']
+        read_only_fields = ['subTotal']
+
+    def validate(self, attrs):
+        errors = defaultdict(list)
+        
+        # Validação para o campo 'quantity'
+        quantity = attrs.get('quantity')
+        if quantity is not None and quantity <= 0:
+            errors['quantity'].append('Quantity must be greater than zero.')
+        
+        # Validação para o campo 'product'
+        if not attrs.get('product'):
+            errors['product'].append('Product cannot be null.')
+
+        # Caso haja algum erro, ele será levantado
+        if errors:
+            raise serializers.ValidationError(errors)
+        
+        return attrs
+
+    def update(self, instance, validated_data):
+        # Permitir atualização parcial dos campos
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
+        instance.save()
+        return instance
+    
+    
+class SavedItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedItem
+        fields = ['owner', 'product', 'added']
+    
+    def validate(self, attrs):
+        errors = defaultdict(list)
+        
+        # Verificação se o campo 'product' está vazio
+        if attrs.get('product') is None:
+            errors['product'].append('Product cannot be null.')
+        
+        # Verificação para 'added'
+        added = attrs.get('added')
+        if added is not None and added < 0:
+            errors['added'].append('Added value must be greater or equal to zero.')
+
+        # Caso haja algum erro, ele será levantado
+        if errors:
+            raise serializers.ValidationError(errors)
+        
+        return attrs
+
+    def update(self, instance, validated_data):
+        # Atualização parcial
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
         instance.save()
         return instance

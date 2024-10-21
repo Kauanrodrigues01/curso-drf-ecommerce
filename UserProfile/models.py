@@ -13,7 +13,7 @@ class Customer(models.Model):
     
     
     def __str__(self):
-        return self.first_name
+        return self.email
 
 class Address(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, default='')
