@@ -29,6 +29,15 @@ class TestCartsViews(TestBaseCartsViews):
         response = self.client.get(reverse('cartitems-list'))
         self.assertEqual(response.status_code, 404)
         
+    # TEST PERMISSIONS
+    def test_if_an_unauthenticated_user_cannot_create_a_cart(self):
+        response = self.client.post(self.url_cart)
+        self.assertEqual(response.status_code, 401)
+    
+    def test_whether_an_unauthenticated_user_cannot_access_the_cart_details_route(self):
+        response = self.client.get(reverse('cartitems-list'))
+        self.assertEqual(response.status_code, 401)
+        
 class TestCartsAndItemsViews(TestBaseCartsAndItemsViews):
     # TEST LIST ITEMS
     def test_list_products_from_cart(self):
@@ -141,7 +150,7 @@ class TestCartsAndItemsViews(TestBaseCartsAndItemsViews):
         self.assertFalse(cartitem_exists)
         self.assertEqual(response.status_code, 400)
   
-    # TEST UPDATE
+    # TEST UPDATE QUANTITY
     def test_updating_the_quantity_of_a_product_in_the_cart(self):
         data = {
             'quantity': 1
@@ -160,7 +169,8 @@ class TestCartsAndItemsViews(TestBaseCartsAndItemsViews):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
         response = self.client.patch(reverse('cartitems-detail', kwargs={'id': 99}), data=data)
         self.assertEqual(response.status_code, 404)
-        
+    
+    # TEST DELETE 
     def test_deleting_a_product_from_the_cart(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')
         response = self.client.delete(reverse('cartitems-detail', kwargs={'id': self.cartitem_product2.id}))
@@ -170,3 +180,29 @@ class TestCartsAndItemsViews(TestBaseCartsAndItemsViews):
         self.assertFalse(cartitem_product2_exists)
         self.assertEqual(response.status_code, 204)
         
+    # TEST PERMISSIONS
+    def test_whether_an_unauthenticated_user_cannot_access_the_list_cart_items_route(self):
+        response = self.client.get(reverse('cartitems-list'))
+        self.assertEqual(response.status_code, 401)
+        
+    def test_whether_an_unauthenticated_user_cannot_access_the_add_cart_items_route(self):
+        data = {
+            'product': self.product1.id,
+            'quantity': 3
+        }
+        response = self.client.post(reverse('cartitems-list'), data=data)
+        
+        cartitem_exists = Cartitems.objects.filter(cart=self.cart, product=self.product1, quantity=data['quantity']).exists()
+        self.assertFalse(cartitem_exists)
+        self.assertEqual(response.status_code, 401)
+        
+    def test_whether_an_unauthenticated_user_cannot_access_the_cart_item_update_route(self):
+        data = {
+            'quantity': 1
+        }
+        response = self.client.patch(reverse('cartitems-detail', kwargs={'id': self.cartitem_product2.id}), data=data)
+        self.assertEqual(response.status_code, 401)
+        
+    def test_whether_an_unauthenticated_user_cannot_access_the_route_to_delete_items_from_the_cart(self):
+        response = self.client.delete(reverse('cartitems-detail', kwargs={'id': self.cartitem_product2.id}))
+        self.assertEqual(response.status_code, 401)
