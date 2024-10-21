@@ -14,7 +14,7 @@ urlpatterns = [
     path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),
     path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),
     
-    path('carts/', CartView.as_view(), name='cart-create'),
+    path('carts/', CartView.as_view(), name='cart'),
     path('carts/items/', CartitemsView.as_view(), name='cartitems-list'),
     path('carts/items/<int:id>/', CartitemsDetailView.as_view(), name='cartitems-detail')
 ]

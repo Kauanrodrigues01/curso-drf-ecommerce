@@ -705,6 +705,14 @@
         "documentation": {}
     },
     {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
         "label": "django.urls",
         "kind": 6,
         "isExtraImport": true,
@@ -715,6 +723,22 @@
     },
     {
         "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
         "importPath": "django.urls",
         "description": "django.urls",
         "isExtraImport": true,
@@ -907,6 +931,22 @@
         "documentation": {}
     },
     {
+        "label": "Customer",
+        "importPath": "UserProfile.models",
+        "description": "UserProfile.models",
+        "isExtraImport": true,
+        "detail": "UserProfile.models",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
+        "importPath": "UserProfile.models",
+        "description": "UserProfile.models",
+        "isExtraImport": true,
+        "detail": "UserProfile.models",
+        "documentation": {}
+    },
+    {
         "label": "Address",
         "importPath": "UserProfile.models",
         "description": "UserProfile.models",
@@ -940,6 +980,46 @@
     },
     {
         "label": "Cart",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Cart",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Cartitems",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Product",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Cart",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Cartitems",
         "importPath": "storeapp.models",
         "description": "storeapp.models",
         "isExtraImport": true,
@@ -1083,11 +1163,11 @@
         "documentation": {}
     },
     {
-        "label": "User",
-        "importPath": "core.models",
-        "description": "core.models",
+        "label": "APIClient",
+        "importPath": "rest_framework.test",
+        "description": "rest_framework.test",
         "isExtraImport": true,
-        "detail": "core.models",
+        "detail": "rest_framework.test",
         "documentation": {}
     },
     {
@@ -1131,11 +1211,43 @@
         "documentation": {}
     },
     {
-        "label": "TestBaseCategoryViews",
-        "importPath": "api.tests.tests_categories.base.test_base_category_views",
-        "description": "api.tests.tests_categories.base.test_base_category_views",
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
         "isExtraImport": true,
-        "detail": "api.tests.tests_categories.base.test_base_category_views",
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "core.models",
+        "description": "core.models",
+        "isExtraImport": true,
+        "detail": "core.models",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseCartsViews",
+        "importPath": "api.tests.tests_carts.base.test_base_carts_views",
+        "description": "api.tests.tests_carts.base.test_base_carts_views",
+        "isExtraImport": true,
+        "detail": "api.tests.tests_carts.base.test_base_carts_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseCartsAndItemsViews",
+        "importPath": "api.tests.tests_carts.base.test_base_carts_views",
+        "description": "api.tests.tests_carts.base.test_base_carts_views",
+        "isExtraImport": true,
+        "detail": "api.tests.tests_carts.base.test_base_carts_views",
+        "documentation": {}
+    },
+    {
+        "label": "CartitemsSerializer",
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "isExtraImport": true,
+        "detail": "api.serializers",
         "documentation": {}
     },
     {
@@ -1160,6 +1272,22 @@
         "description": "api.serializers",
         "isExtraImport": true,
         "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "cart",
+        "importPath": "storeapp.views",
+        "description": "storeapp.views",
+        "isExtraImport": true,
+        "detail": "storeapp.views",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseCategoryViews",
+        "importPath": "api.tests.tests_categories.base.test_base_category_views",
+        "description": "api.tests.tests_categories.base.test_base_category_views",
+        "isExtraImport": true,
+        "detail": "api.tests.tests_categories.base.test_base_category_views",
         "documentation": {}
     },
     {
@@ -1821,6 +1949,42 @@
         "documentation": {}
     },
     {
+        "label": "TestBaseCartsViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_carts.base.test_base_carts_views",
+        "description": "api.tests.tests_carts.base.test_base_carts_views",
+        "peekOfCode": "class TestBaseCartsViews(TestCase):\n    @classmethod\n    def setUpTestData(cls):\n        cls.client = APIClient()\n        cls.url_cart = reverse('cart')\n        cls.user = User.objects.create_user(email='TesteUser@gmail.com', first_name='Teste', last_name='Teste', password='T#12345')\n        cls.user_credentials = {\n            'email': 'TesteUser@gmail.com',\n            'password': 'T#12345'\n        }",
+        "detail": "api.tests.tests_carts.base.test_base_carts_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestBaseCartsAndItemsViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_carts.base.test_base_carts_views",
+        "description": "api.tests.tests_carts.base.test_base_carts_views",
+        "peekOfCode": "class TestBaseCartsAndItemsViews(TestCase):\n    @classmethod\n    def setUpTestData(cls):\n        cls.client = APIClient()\n        cls.url_cart = reverse('cart')\n        cls.user = User.objects.create_user(email='TesteUser@gmail.com', first_name='Teste', last_name='Teste', password='T#12345')\n        cls.user_credentials = {\n            'email': 'TesteUser@gmail.com',\n            'password': 'T#12345'\n        }",
+        "detail": "api.tests.tests_carts.base.test_base_carts_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestCartsViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_carts.test_carts_views",
+        "description": "api.tests.tests_carts.test_carts_views",
+        "peekOfCode": "class TestCartsViews(TestBaseCartsViews):\n    def test_create_a_card(self):\n        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')\n        response = self.client.post(self.url_cart)\n        customer = Customer.objects.get(user=self.user)\n        self.assertTrue(Cart.objects.filter(owner=customer).exists())\n        self.assertEqual(response.status_code, 201)\n    def test_whether_an_error_appears_when_trying_to_create_a_cart_if_there_is_already_a_cart_created(self):\n        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')\n        response = self.client.post(self.url_cart)",
+        "detail": "api.tests.tests_carts.test_carts_views",
+        "documentation": {}
+    },
+    {
+        "label": "TestCartsAndItemsViews",
+        "kind": 6,
+        "importPath": "api.tests.tests_carts.test_carts_views",
+        "description": "api.tests.tests_carts.test_carts_views",
+        "peekOfCode": "class TestCartsAndItemsViews(TestBaseCartsAndItemsViews):\n    # TEST LIST ITEMS\n    def test_list_products_from_cart(self):\n        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token_user}')\n        response = self.client.get(reverse('cartitems-list'))\n        serializer_cartitem_product2 = CartitemsSerializer(self.cartitem_product2)\n        serializer_cartitem_product3 = CartitemsSerializer(self.cartitem_product3)\n        self.assertIn(serializer_cartitem_product2.data, response.data)\n        self.assertIn(serializer_cartitem_product3.data, response.data)\n        self.assertEqual(response.status_code, 200)",
+        "detail": "api.tests.tests_carts.test_carts_views",
+        "documentation": {}
+    },
+    {
         "label": "TestBaseCategoryViews",
         "kind": 6,
         "importPath": "api.tests.tests_categories.base.test_base_category_views",
@@ -1960,7 +2124,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class CartitemsSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Cartitems\n        fields = ['id', 'cart', 'product', 'quantity', 'subTotal']\n        read_only_fields = ['subTotal']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        quantity = attrs.get('quantity')\n        if quantity is not None and quantity <= 0:\n            errors['quantity'].append('Quantity must be greater than zero.')",
+        "peekOfCode": "class CartitemsSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Cartitems\n        fields = ['id', 'cart', 'product', 'quantity', 'subTotal']\n        read_only_fields = ['subTotal']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        product = attrs.get('product')\n        quantity = attrs.get('quantity')\n        if quantity is not None and quantity <= 0:",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1978,7 +2142,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create'),",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart'),",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1987,7 +2151,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create'),\n    path('carts/items/', CartitemsView.as_view(), name='cartitems-list'),\n    path('carts/items/<int:id>/', CartitemsDetailView.as_view(), name='cartitems-detail')\n]",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart'),\n    path('carts/items/', CartitemsView.as_view(), name='cartitems-list'),\n    path('carts/items/<int:id>/', CartitemsDetailView.as_view(), name='cartitems-detail')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -2023,7 +2187,7 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class CartitemsView(ListCreateAPIView):\n    serializer_class = CartitemsSerializer\n    permission_classes = [IsAuthenticated]\n    def get_queryset(self):\n        user = self.request.user\n        customer = Customer.objects.get(user=user)\n        cart = Cart.objects.filter(owner=customer).first()\n        if not cart:\n            raise Response({\"detail\": \"Cart not found.\"}, status=status.HTTP_404_NOT_FOUND)\n        return Cartitems.objects.filter(cart=cart)",
+        "peekOfCode": "class CartitemsView(ListCreateAPIView):\n    serializer_class = CartitemsSerializer\n    permission_classes = [IsAuthenticated]\n    def get_queryset(self):\n        user = self.request.user\n        customer = Customer.objects.get(user=user)\n        cart = Cart.objects.filter(owner=customer).first()\n        if not cart:\n            raise NotFound(detail=\"Cart not found.\")\n        return Cartitems.objects.filter(cart=cart)",
         "detail": "api.views",
         "documentation": {}
     },

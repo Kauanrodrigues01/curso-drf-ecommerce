@@ -222,14 +222,19 @@ class CartitemsSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         errors = defaultdict(list)
-
+        product = attrs.get('product')
         quantity = attrs.get('quantity')
+        
         if quantity is not None and quantity <= 0:
             errors['quantity'].append('Quantity must be greater than zero.')
 
-        if not attrs.get('product') and not self.instance:
+        if not product and not self.instance:
             errors['product'].append('Product cannot be null.')
-
+            
+        if product is not None and quantity is not None:
+            if quantity > product.inventory:
+                errors['quantity'].append('Desired quantity exceeds available inventory.')
+                
         if errors:
             raise serializers.ValidationError(errors)
 
@@ -246,10 +251,14 @@ class CartitemsSerializer(serializers.ModelSerializer):
             product=product,
             defaults={'quantity': quantity}
         )
-        print(cart_item)
+        
 
         # Se o item já existe no carrinho, atualiza a quantidade
         if not created:
+            if (quantity + cart_item.quantity) > product.inventory:
+                raise serializers.ValidationError({
+                    'quantity': 'Desired quantity exceeds available inventory.'
+                })
             cart_item.quantity += quantity
             cart_item.save()
 

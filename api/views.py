@@ -85,7 +85,7 @@ class CartitemsView(ListCreateAPIView):
         customer = Customer.objects.get(user=user)
         cart = Cart.objects.filter(owner=customer).first()
         if not cart:
-            raise Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
+            raise NotFound(detail="Cart not found.")
         return Cartitems.objects.filter(cart=cart)
 
     def create(self, request, *args, **kwargs):
