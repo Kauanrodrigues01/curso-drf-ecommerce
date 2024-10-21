@@ -2,8 +2,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from storeapp.models import Product, Category, Cart, Cartitems
-from .serializers import ProductSerializer, CategorySerializer, CartSerializer, CartitemsSerializer
+from storeapp.models import Product, Category, Cart, Cartitems, SavedItem
+from .serializers import ProductSerializer, CategorySerializer, CartSerializer, CartitemsSerializer, SavedItemSerializer
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
@@ -138,4 +138,18 @@ class CartitemsDetailView(RetrieveUpdateDestroyAPIView):
 
         cart_items.delete()
         return Response([], status=status.HTTP_204_NO_CONTENT)
-        
+
+
+class SavedItemViewSet(ModelViewSet):
+    queryset = SavedItem.objects.all()
+    serializer_class = SavedItemSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'post', 'delete']
+
+    def get_queryset(self):
+        customer = Customer.objects.get(user=self.request.user)
+        return SavedItem.objects.filter(owner=customer)
+
+    def perform_create(self, serializer):
+        customer = Customer.objects.get(user=self.request.user)
+        serializer.save(owner=customer)

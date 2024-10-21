@@ -1,11 +1,12 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from .views import ProductViewSet, CategoryViewSet, CartView, CartitemsView, CartitemsDetailView
+from .views import ProductViewSet, CategoryViewSet, CartView, CartitemsView, CartitemsDetailView, SavedItemViewSet
 from .views_users import UserCreateView, UserDetailMeView, UserViewAdmin
 
 router = DefaultRouter()
 router.register(r'products', ProductViewSet, basename='product')
 router.register(r'categories', CategoryViewSet, basename='category')
+router.register(r'saved-items', SavedItemViewSet, basename='saveditem')
 
 urlpatterns = [
     path('', include(router.urls)),

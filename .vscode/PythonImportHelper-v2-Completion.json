@@ -1131,6 +1131,14 @@
         "documentation": {}
     },
     {
+        "label": "SavedItem",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
         "label": "AddressForm",
         "importPath": "storeapp.forms",
         "description": "storeapp.forms",
@@ -2133,7 +2141,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class SavedItemSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = SavedItem\n        fields = ['owner', 'product', 'added']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        # Verificação se o campo 'product' está vazio\n        if attrs.get('product') is None:\n            errors['product'].append('Product cannot be null.')\n        # Verificação para 'added'",
+        "peekOfCode": "class SavedItemSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = SavedItem\n        fields = ['id', 'owner', 'product', 'added']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        # Verificação se o campo 'product' está vazio\n        if attrs.get('product') is None:\n            errors['product'].append('Product cannot be null.')\n        # Verificação para 'added'",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -2142,7 +2150,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart'),",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nrouter.register(r'saved-items', SavedItemViewSet, basename='saveditem')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -2197,6 +2205,15 @@
         "importPath": "api.views",
         "description": "api.views",
         "peekOfCode": "class CartitemsDetailView(RetrieveUpdateDestroyAPIView):\n    permission_classes = [IsAuthenticated]\n    http_method_names = ['patch', 'delete']\n    serializer_class = CartitemsSerializer\n    lookup_field = 'id'\n    def patch(self, request, id):\n        quantity = request.data.get('quantity')\n        data = {\n            'quantity': quantity\n        }",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "SavedItemViewSet",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class SavedItemViewSet(ModelViewSet):\n    queryset = SavedItem.objects.all()\n    serializer_class = SavedItemSerializer\n    permission_classes = [IsAuthenticated]\n    http_method_names = ['get', 'post', 'delete']\n    def get_queryset(self):\n        customer = Customer.objects.get(user=self.request.user)\n        return SavedItem.objects.filter(owner=customer)\n    def perform_create(self, serializer):\n        customer = Customer.objects.get(user=self.request.user)",
         "detail": "api.views",
         "documentation": {}
     },

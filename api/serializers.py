@@ -274,7 +274,7 @@ class CartitemsSerializer(serializers.ModelSerializer):
 class SavedItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedItem
-        fields = ['owner', 'product', 'added']
+        fields = ['id', 'owner', 'product', 'added']
     
     def validate(self, attrs):
         errors = defaultdict(list)
