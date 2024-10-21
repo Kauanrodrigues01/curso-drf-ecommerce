@@ -12,6 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image', 'discount', 'top_deal', 'flash_sales']
+        read_only_fields = ['price']
 
     def validate(self, attrs):
         required_fields = ['name', 'slug', 'inventory', 'old_price']
@@ -221,26 +222,44 @@ class CartitemsSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         errors = defaultdict(list)
-        
-        # Validação para o campo 'quantity'
+
+        # Validação da quantidade
         quantity = attrs.get('quantity')
         if quantity is not None and quantity <= 0:
             errors['quantity'].append('Quantity must be greater than zero.')
-        
-        # Validação para o campo 'product'
+
+        # Verificação se o produto foi passado
         if not attrs.get('product'):
             errors['product'].append('Product cannot be null.')
 
-        # Caso haja algum erro, ele será levantado
         if errors:
             raise serializers.ValidationError(errors)
-        
+
         return attrs
 
+    def create(self, validated_data):
+        cart = validated_data.get('cart')
+        product = validated_data.get('product')
+        quantity = validated_data.get('quantity', 1)
+
+        # Tenta buscar o item no carrinho, se já existir, atualiza a quantidade
+        cart_item, created = Cartitems.objects.get_or_create(
+            cart=cart,
+            product=product,
+            defaults={'quantity': quantity}
+        )
+        print(cart_item)
+
+        # Se o item já existe no carrinho, atualiza a quantidade
+        if not created:
+            cart_item.quantity += quantity
+            cart_item.save()
+
+        return cart_item
+
     def update(self, instance, validated_data):
-        # Permitir atualização parcial dos campos
-        for field, value in validated_data.items():
-            setattr(instance, field, value)
+        quantity = validated_data.get('quantity', instance.quantity)
+        instance.quantity = quantity
         instance.save()
         return instance
     

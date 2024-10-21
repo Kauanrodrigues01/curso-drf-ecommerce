@@ -1,14 +1,13 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from storeapp.models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer, CartSerializer
+from storeapp.models import Product, Category, Cart, Cartitems
+from .serializers import ProductSerializer, CategorySerializer, CartSerializer, CartitemsSerializer
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
 from .permissions import CategoriesPermissionsViews, ProductsPermissionsViews
 from django.utils.crypto import get_random_string
-from storeapp.models import Cart
 from UserProfile.models import Customer
 
 class ProductViewSet(ModelViewSet):
@@ -75,3 +74,41 @@ class CartView(APIView):
                 {"detail": "Carrinho não encontrado."},
                 status=status.HTTP_404_NOT_FOUND
             )
+            
+class CartitemsViews(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        
+        # Busca ou cria o carrinho do cliente
+        try:
+            cart = Cart.objects.get(owner=customer)
+        except Cart.DoesNotExist:
+            return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Adiciona o ID do carrinho nos dados que serão enviados ao serializer
+        data = request.data.copy()
+        data['cart'] = cart.cart_id
+
+        # Cria ou atualiza o CartItem via serializer
+        serializer = CartitemsSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, *args, **kwargs):
+        """Lista todos os CartItems do carrinho do usuário."""
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        
+        try:
+            cart = Cart.objects.get(owner=customer)
+        except Cart.DoesNotExist:
+            return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        cart_items = Cartitems.objects.filter(cart=cart)
+        serializer = CartitemsSerializer(cart_items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

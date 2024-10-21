@@ -1027,6 +1027,14 @@
         "documentation": {}
     },
     {
+        "label": "Cartitems",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
         "label": "AddressForm",
         "importPath": "storeapp.forms",
         "description": "storeapp.forms",
@@ -1851,7 +1859,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image', 'discount', 'top_deal', 'flash_sales']\n    def validate(self, attrs):\n        required_fields = ['name', 'slug', 'inventory', 'old_price']\n        request = self.context.get('request')\n        errors = defaultdict(list)\n        for field in required_fields:\n            if request.method == 'PATCH':",
+        "peekOfCode": "class ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = ['id', 'name', 'description', 'category', 'slug', 'inventory', 'old_price', 'price', 'image', 'discount', 'top_deal', 'flash_sales']\n        read_only_fields = ['price']\n    def validate(self, attrs):\n        required_fields = ['name', 'slug', 'inventory', 'old_price']\n        request = self.context.get('request')\n        errors = defaultdict(list)\n        for field in required_fields:",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1896,7 +1904,7 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class CartitemsSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Cartitems\n        fields = ['cart', 'product', 'quantity', 'subTotal']\n        read_only_fields = ['subTotal']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        # Validação para o campo 'quantity'\n        quantity = attrs.get('quantity')\n        if quantity is not None and quantity <= 0:",
+        "peekOfCode": "class CartitemsSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Cartitems\n        fields = ['cart', 'product', 'quantity', 'subTotal']\n        read_only_fields = ['subTotal']\n    def validate(self, attrs):\n        errors = defaultdict(list)\n        # Validação da quantidade\n        quantity = attrs.get('quantity')\n        if quantity is not None and quantity <= 0:",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -1914,7 +1922,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create')",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'products', ProductViewSet, basename='product')\nrouter.register(r'categories', CategoryViewSet, basename='category')\nurlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create'),",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1923,7 +1931,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create')\n]",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    path('user/register/', UserCreateView.as_view(), name='user-register'),\n    path('user/me/', UserDetailMeView.as_view(), name='user-me'),\n    path('user/', UserViewAdmin.as_view({'get': 'list'}), name='user-list'),\n    path('user/<int:id>/', UserViewAdmin.as_view({'get': 'retrieve'}), name='user-detail'),\n    path('carts/', CartView.as_view(), name='cart-create'),\n    path('carts/items/', CartitemsViews.as_view(), name='cart-items')\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -1951,6 +1959,15 @@
         "importPath": "api.views",
         "description": "api.views",
         "peekOfCode": "class CartView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request, *args, **kwargs):\n        # Verifica se já existe uma session_key, se não, gera uma\n        if not request.session.session_key:\n            request.session.create()\n        # Obtém o session_id da sessão atual ou gera uma nova chave\n        session_id = request.session.session_key or get_random_string(32)\n        data = {\n            'session_id': session_id,",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "CartitemsViews",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class CartitemsViews(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request, *args, **kwargs):\n        user = request.user\n        customer = Customer.objects.get(user=user)\n        # Busca ou cria o carrinho do cliente\n        try:\n            cart = Cart.objects.get(owner=customer)\n        except Cart.DoesNotExist:\n            return Response({\"detail\": \"Cart not found.\"}, status=status.HTTP_404_NOT_FOUND)",
         "detail": "api.views",
         "documentation": {}
     },
