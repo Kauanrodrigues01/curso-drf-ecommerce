@@ -1,6 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from storeapp.models import Product, Category, Cart, Cartitems
 from .serializers import ProductSerializer, CategorySerializer, CartSerializer, CartitemsSerializer
 from rest_framework.exceptions import NotFound
@@ -75,17 +76,25 @@ class CartView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
             
-class CartitemsViews(APIView):
+class CartitemsView(ListCreateAPIView):
+    serializer_class = CartitemsSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def get_queryset(self):
+        user = self.request.user
+        customer = Customer.objects.get(user=user)
+        cart = Cart.objects.filter(owner=customer).first()
+        if not cart:
+            raise Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
+        return Cartitems.objects.filter(cart=cart)
+
+    def create(self, request, *args, **kwargs):
         user = request.user
         customer = Customer.objects.get(user=user)
         
         # Busca ou cria o carrinho do cliente
-        try:
-            cart = Cart.objects.get(owner=customer)
-        except Cart.DoesNotExist:
+        cart = Cart.objects.filter(owner=customer).first()
+        if not cart:
             return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
 
         # Adiciona o ID do carrinho nos dados que serão enviados ao serializer
@@ -93,27 +102,16 @@ class CartitemsViews(APIView):
         data['cart'] = cart.cart_id
 
         # Cria ou atualiza o CartItem via serializer
-        serializer = CartitemsSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        customer = Customer.objects.get(user=user)
-        
-        try:
-            cart = Cart.objects.get(owner=customer)
-        except Cart.DoesNotExist:
-            return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
-
-        cart_items = Cartitems.objects.filter(cart=cart)
-        serializer = CartitemsSerializer(cart_items, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
-class CartitemsDetailView(APIView):
+class CartitemsDetailView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
+    http_method_names = ['patch', 'delete']
+    serializer_class = CartitemsSerializer
+    lookup_field = 'id'
     
     def patch(self, request, id):
         quantity = request.data.get('quantity')
@@ -126,7 +124,7 @@ class CartitemsDetailView(APIView):
         except Cartitems.DoesNotExist:
             return Response({"detail": "Cartitem not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = CartitemsSerializer(cart_items, data, partial=True)
+        serializer = self.get_serializer(cart_items, data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
