@@ -1075,6 +1075,22 @@
         "documentation": {}
     },
     {
+        "label": "Category",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
+        "label": "Product",
+        "importPath": "storeapp.models",
+        "description": "storeapp.models",
+        "isExtraImport": true,
+        "detail": "storeapp.models",
+        "documentation": {}
+    },
+    {
         "label": "Cart",
         "importPath": "storeapp.models",
         "description": "storeapp.models",
@@ -1324,6 +1340,15 @@
         "documentation": {}
     },
     {
+        "label": "django_filters",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django_filters",
+        "description": "django_filters",
+        "detail": "django_filters",
+        "documentation": {}
+    },
+    {
         "label": "BasePermission",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
@@ -1521,6 +1546,14 @@
         "description": "django.utils.crypto",
         "isExtraImport": true,
         "detail": "django.utils.crypto",
+        "documentation": {}
+    },
+    {
+        "label": "DjangoFilterBackend",
+        "importPath": "django_filters.rest_framework",
+        "description": "django_filters.rest_framework",
+        "isExtraImport": true,
+        "detail": "django_filters.rest_framework",
         "documentation": {}
     },
     {
@@ -2056,6 +2089,24 @@
         "documentation": {}
     },
     {
+        "label": "CategoryFilter",
+        "kind": 6,
+        "importPath": "api.filters",
+        "description": "api.filters",
+        "peekOfCode": "class CategoryFilter(filters.FilterSet):\n    title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n    slug = filters.CharFilter(field_name='slug', lookup_expr='icontains')\n    class Meta:\n        model = Category\n        fields = ['title', 'slug', 'featured_product']\nclass ProductFilter(filters.FilterSet):\n    name = filters.CharFilter(field_name='name', lookup_expr='icontains')\n    category = filters.CharFilter(field_name='category__title', lookup_expr='icontains')\n    discount = filters.BooleanFilter(field_name='discount')",
+        "detail": "api.filters",
+        "documentation": {}
+    },
+    {
+        "label": "ProductFilter",
+        "kind": 6,
+        "importPath": "api.filters",
+        "description": "api.filters",
+        "peekOfCode": "class ProductFilter(filters.FilterSet):\n    name = filters.CharFilter(field_name='name', lookup_expr='icontains')\n    category = filters.CharFilter(field_name='category__title', lookup_expr='icontains')\n    discount = filters.BooleanFilter(field_name='discount')\n    top_deal = filters.BooleanFilter(field_name='top_deal')\n    class Meta:\n        model = Product\n        fields = ['name', 'category', 'discount', 'top_deal']",
+        "detail": "api.filters",
+        "documentation": {}
+    },
+    {
         "label": "ProductsPermissionsViews",
         "kind": 6,
         "importPath": "api.permissions",
@@ -2168,7 +2219,7 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class ProductViewSet(ModelViewSet):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    permission_classes = [ProductsPermissionsViews,]\n    lookup_field = 'id' \n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])\n        except Product.DoesNotExist:\n            raise NotFound({'detail': 'Product Not Found'})",
+        "peekOfCode": "class ProductViewSet(ModelViewSet):\n    queryset = Product.objects.all()\n    serializer_class = ProductSerializer\n    permission_classes = [ProductsPermissionsViews,]\n    filter_backends = [DjangoFilterBackend]\n    filterset_class = ProductFilter\n    lookup_field = 'id' \n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(id=kwargs['id'])",
         "detail": "api.views",
         "documentation": {}
     },
@@ -2177,7 +2228,7 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class CategoryViewSet(ModelViewSet):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    permission_classes = [CategoriesPermissionsViews,]\n    lookup_field = 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])\n        except Category.DoesNotExist:\n            raise NotFound({'detail': 'Category Not Found'})",
+        "peekOfCode": "class CategoryViewSet(ModelViewSet):\n    queryset = Category.objects.all()\n    serializer_class = CategorySerializer\n    permission_classes = [CategoriesPermissionsViews,]\n    filter_backends = [DjangoFilterBackend]\n    filterset_class = CategoryFilter\n    lookup_field = 'category_id'\n    def retrieve(self, request, *args, **kwargs):\n        try:\n            instance = self.get_queryset().get(category_id=kwargs['category_id'])",
         "detail": "api.views",
         "documentation": {}
     },
@@ -2321,7 +2372,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\n# Apps padrão do Django",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2330,7 +2381,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "SECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "peekOfCode": "SECRET_KEY = config('SECRET_KEY', cast=str)\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\n# Apps padrão do Django\nDJANGO_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2339,7 +2390,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "DEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "peekOfCode": "DEBUG = config('DEBUG', default=False, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\n# Apps padrão do Django\nDJANGO_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2348,7 +2399,34 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'storeapp',",
+        "peekOfCode": "ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())\n# Application definition\n# Apps padrão do Django\nDJANGO_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "ecommerce.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DJANGO_APPS",
+        "kind": 5,
+        "importPath": "ecommerce.settings",
+        "description": "ecommerce.settings",
+        "peekOfCode": "DJANGO_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n]\n# Apps de terceiros\nTHIRD_PARTY_APPS = [",
+        "detail": "ecommerce.settings",
+        "documentation": {}
+    },
+    {
+        "label": "THIRD_PARTY_APPS",
+        "kind": 5,
+        "importPath": "ecommerce.settings",
+        "description": "ecommerce.settings",
+        "peekOfCode": "THIRD_PARTY_APPS = [\n    'rest_framework',\n    'rest_framework_simplejwt',\n    'rest_framework_simplejwt.token_blacklist',\n    'drf_yasg',\n    'django_filters',\n]\n# Apps locais\nLOCAL_APPS = [\n    'storeapp',",
+        "detail": "ecommerce.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LOCAL_APPS",
+        "kind": 5,
+        "importPath": "ecommerce.settings",
+        "description": "ecommerce.settings",
+        "peekOfCode": "LOCAL_APPS = [\n    'storeapp',\n    'core',\n    'UserProfile',\n    'api',\n]\n# Variável final que agrupa todas\nINSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS\nMIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2357,7 +2435,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'storeapp',\n    'core',\n    'UserProfile',",
+        "peekOfCode": "INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS\nMIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    # 'whitenoise.middleware.WhiteNoiseMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2501,7 +2579,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "MEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}",
+        "peekOfCode": "MEDIA_ROOT = BASE_DIR/'static'\n# Default primary key field type\n# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2510,7 +2588,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2519,7 +2597,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "AUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    ",
+        "peekOfCode": "AUTH_USER_MODEL = 'core.User'\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(",
         "detail": "ecommerce.settings",
         "documentation": {}
     },
@@ -2528,7 +2606,7 @@
         "kind": 5,
         "importPath": "ecommerce.settings",
         "description": "ecommerce.settings",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    \n    ),",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': (\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ),\n    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(\n        seconds=config(\"ACCESS_TOKEN_LIFETIME_SECONDS\", cast=int)    ",
         "detail": "ecommerce.settings",
         "documentation": {}
     },

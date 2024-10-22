@@ -10,11 +10,15 @@ from rest_framework import status
 from .permissions import CategoriesPermissionsViews, ProductsPermissionsViews
 from django.utils.crypto import get_random_string
 from UserProfile.models import Customer
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import ProductFilter, CategoryFilter
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [ProductsPermissionsViews,]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ProductFilter
     lookup_field = 'id' 
 
     def retrieve(self, request, *args, **kwargs):
@@ -29,6 +33,8 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [CategoriesPermissionsViews,]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CategoryFilter
     lookup_field = 'category_id'
 
     def retrieve(self, request, *args, **kwargs):
